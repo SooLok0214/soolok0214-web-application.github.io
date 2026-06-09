@@ -11,7 +11,19 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-echo "Connected Gay";
+$statusMessage = "Connected";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email']) && !empty($_POST['password'])) {
+  $email = $conn->real_escape_string($_POST['email']);
+  $passwordInput = $conn->real_escape_string($_POST['password']);
+  $res = $conn->query("SELECT 1 FROM student WHERE email = '$email' AND password = '$passwordInput'");
+  if ($res && $res->num_rows > 0) {
+    $statusMessage = "Get User";
+  } else {
+    $statusMessage = "No Found User";
+  }
+}
+echo $statusMessage;
 ?>
 
 
@@ -36,12 +48,12 @@ echo "Connected Gay";
 <body>
   <div id="email">
     <form target="_self" method="POST">
-    <h2>Enter Your Email:</h2>
-    <input type="text" name="email">
-    <br/>
-    <h2>Password:</h2>
-    <input type="password" name="password">
-    <input type="submit">
+      <h2>Enter Your Email:</h2>
+      <input type="text" name="email">
+      <br/>
+      <h2>Password:</h2>
+      <input type="password" name="password">
+      <input type="submit">
     </form>
   </div>
 </body>
