@@ -33,7 +33,7 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Actions</th>
+            <th>YearJoin</th>
         </tr>
         <?php
 
