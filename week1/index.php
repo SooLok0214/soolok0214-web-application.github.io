@@ -12,7 +12,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-if (!empty($_POST["email"]) && !empty($_POST["password"])) {
+if (isset($_POST["email"]) && isset($_POST["password"])) {
   $query = "SELECT * FROM student WHERE email='" . $_POST["email"] . "' && password='" . $_POST["password"] . "'";
   $result = mysqli_query($conn, $query) or die("Couldn't execute query");
   $numrow = mysqli_num_rows($result);

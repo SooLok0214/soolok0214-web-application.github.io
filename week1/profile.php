@@ -16,12 +16,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booklist</title>
+    <title>Profile</title>
   <style>
         table{
             border-collapse: collapse;
         }
-
         table,
         th,
         td{
@@ -30,36 +29,29 @@
       </style>
 </head>
 <body>
-    <table width="1100">
+    <table width="800">
         <tr>
-            <th>ISBN</th>
-            <th width="300">Title</th>
-            <th width="200">Author</th>
-            <th>Description</th>
-            <th>Price(RM)</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
         </tr>
         <?php
 
-        $query = "SELECT * FROM booklist";
+        $query = "SELECT * FROM student";
         $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
         <tr>
-            <td><?php echo $row['ISBN'] ?></td>
-            <td><?php echo $row['title'] ?></td>
-            <td><?php echo $row['author'] ?></td>
-            <td><?php echo $row['description'] ?></td>
-            <td><?php echo $row['price'] ?></td>
+            <td><?php echo $row['name'] ?></td>
+            <td><?php echo $row['email'] ?></td>
+            <td><?php echo $row['yearjoin'] ?></td>
             <td><input type="button" value="Edit"></td>
-            <td><button>Delete</button></td>
         </tr>
     <?php 
 }
 mysqli_close($conn);
-?>x
-<a href="profile.php"><input type="submit" value="Profile"></a>
-<a href="#"><input type="submit" value="AddBook"></a>
-<a href="#"><input type="submit" value="LogOut"></a>
+?>
+<a href="booklist.php"><input type="submit" value="Back"></a>
     </table>
 </body>
 </html>
