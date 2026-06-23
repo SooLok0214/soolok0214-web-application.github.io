@@ -1,11 +1,3 @@
-<?php
-    $servername = "localhost";
-    $username = "soolok";
-    $password = "Rabbit5354";
-    $dbname = "soolok";
-$conn = new mysqli($servername, $username, $password, $dbname);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +49,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
         <a href="profile.php"><input type="submit" value="Profile"></a>
         <a href="addbook.php"><input type="submit" value="AddBook"></a>
-        <a href=""><input type="submit" value="Logout"></a>
+        <a href=""><input type="submit" value="Log_out"></a>
     </table>
 
 </body>

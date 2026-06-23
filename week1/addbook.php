@@ -33,7 +33,6 @@
 <body>
     <button><a class="link" href="booklist.php">Back</a></button>
     <table width = "600">
-        
         <tr>
             <th>ISBN</th>
             <th>Title</th>
@@ -51,6 +50,5 @@
                 <td><input type="submit" value="add"></td>
             </form>
         </tr>
-    
 </body>
 </html>
