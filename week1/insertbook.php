@@ -11,10 +11,10 @@
     }
 
 
-$sql = "INSERT INTO booklist (ISBN) VALUES ('9781767872399')";
+$sql = "INSERT INTO booklist (ISBN, title, author, description, price) VALUES ('" . $_POST["ISBN"] . "', '" . $_POST["title"] . "', '" . $_POST["author"] . "', '" . $_POST["description"] . "', '" . $_POST["price"] . "')";
 
 if ($conn->query($sql) === TRUE) {
-  echo "New record created successfully";
+  header("Location: booklist.php");
 } else {
   echo "Error: " . $sql . "<br>" . $conn->error;
 }
