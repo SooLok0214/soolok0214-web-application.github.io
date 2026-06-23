@@ -16,7 +16,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Book</title>
+    <title>Add Student</title>
     <style>
         table{
             border-collapse: collapse;
@@ -31,22 +31,22 @@
     </style>
 </head>
 <body>
-    <button><a class="link" href="booklist.php">Back</a></button>
+    <button><a class="link" href="student.php">Back</a></button>
     <table width = "600">
         <tr>
-            <th>ISBN</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Description</th>
-            <th>Price</th>
+            <th>Name</th>
+            <th>StudentID</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>YearJoin</th>
         </tr>
         <tr>
-            <form action="insertbook.php" method="POST">
-                <td><input type="text" name="ISBN" required></td>
-                <td><input type="text" name="title" required></td>
-                <td><input type="text" name="author" required></td>
-                <td><textarea cols="50" rows="4" name="description" required></textarea></td>
-                <td><input type="text" name="price" required></td>
+            <form action="insertstudent.php" method="POST">
+                <td><input type="text" name="name"></td>
+                <td><input type="text" name="studentID"></td>
+                <td><input type="text" name="email"></td>
+                <td><input type="text" name="password"></td>
+                <td><input type="text" name="yearjoin"></td>
                 <td><input type="submit" value="add"></td>
             </form>
         </tr>

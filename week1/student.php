@@ -11,17 +11,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-    session_start();
-
-    $login_email = $_SESSION["email"];
-    ?>
+?>
   
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>All Students</title>
   <style>
         table{
             border-collapse: collapse;
@@ -43,7 +40,7 @@ if ($conn->connect_error) {
         </tr>
         <?php
 
-        $query = "SELECT * FROM student WHERE email = '$login_email'";
+        $query = "SELECT * FROM student ";        
         $result = mysqli_query($conn, $query) or die("Couldn't execute query");
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
@@ -64,6 +61,7 @@ if ($conn->connect_error) {
 mysqli_close($conn);
 ?>
 <a href="booklist.php"><input type="submit" value="Back"></a>
+<a href="addstudent.php"><input type="submit" value="Add Student"></a>
     </table>
 </body>
 </html>

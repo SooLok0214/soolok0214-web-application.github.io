@@ -18,14 +18,13 @@
 
 <body>
     <button><a href="profile.php">Back</a></button>
-    <form action="process_edit.php" method="POST">
+    <form action="process_edit_profile.php" method="POST">
         <table width="600">
             <tr>
                 <th>Name</th>
                 <th>Password</th>
                 <th>Confirm Password</th>
                 <th>Year Joined</th>
-                <th>Action</th>
             </tr>
             <tr>
                 <td><input type="text" name="name" required></td>
