@@ -11,7 +11,7 @@
     }
 
 
-$sql = "INSERT INTO booklist (ISBN) VALUES ('289158226089')";
+$sql = "INSERT INTO booklist (ISBN) VALUES ('9781767872399')";
 
 if ($conn->query($sql) === TRUE) {
   echo "New record created successfully";

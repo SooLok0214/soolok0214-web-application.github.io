@@ -42,7 +42,7 @@
             <th>Price</th>
         </tr>
         <tr>
-            <form action="runAddBook.php" method="GET">
+            <form action="insertbook.php" method="POST">
                 <td><input type="text" name="ISBN"></td>
                 <td><input type="text" name="title"></td>
                 <td><input type="text" name="author"></td>
