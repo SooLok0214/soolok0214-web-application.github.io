@@ -5,10 +5,15 @@
     $dbname = "soolok";
 
     // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-    if (!$conn) {
-        die('Connection failed: ' . mysqli_connect_error());
-    }
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+    session_start();
+
+    $login_email = $_SESSION["email"];
     ?>
   
 <!DOCTYPE html>
@@ -37,7 +42,7 @@
         </tr>
         <?php
 
-        $query = "SELECT * FROM student";
+        $query = "SELECT * FROM student WHERE email = '$login_email'";
         $result = mysqli_query($conn, $query);
         while ($row = mysqli_fetch_assoc($result)) {
         ?>

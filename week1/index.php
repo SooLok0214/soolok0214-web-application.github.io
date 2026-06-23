@@ -4,6 +4,8 @@
   $password = "Rabbit5354";
   $dbname = "soolok";
 
+if (isset($_POST["email"]) && isset($_POST["password"])) {
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -12,13 +14,16 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-if (isset($_POST["email"]) && isset($_POST["password"])) {
+session_start();
+
   $query = "SELECT * FROM student WHERE email='" . $_POST["email"] . "' && password='" . $_POST["password"] . "'";
   $result = mysqli_query($conn, $query) or die("Couldn't execute query");
   $numrow = mysqli_num_rows($result);
 
   if ($numrow > 0) {
+      $_SESSION["email"] = $_POST["email"];
       header("Location: booklist.php");
+      exit();
     } else {
       echo "No Found User";
     }
