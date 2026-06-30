@@ -1,5 +1,5 @@
 <?php
-$originalISBN = (trim($_POST['ISBN'] ?? ''));
+$ISBN = $_POST['ISBN'];
 ?>
 
 <!DOCTYPE html>
@@ -23,17 +23,15 @@ $originalISBN = (trim($_POST['ISBN'] ?? ''));
 <body>
     <button><a href="booklist.php">Back</a></button>
     <form action="process_edit_book.php" method="POST">
-        <input type="hidden" name="original_ISBN" value="<?php echo $originalISBN; ?>">
+        <input type="hidden" name="ISBN" value="<?php echo $ISBN; ?>">
         <table width="600">
             <tr>
-                <th>ISBN</th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Description</th>
                 <th>Price</th>
             </tr>
             <tr>
-                <td><input type="text" name="ISBN" required></td>
                 <td><input type="text" name="title" required></td>
                 <td><input type="text" name="author" required></td>
                 <td><input type="text" name="description" required></td>

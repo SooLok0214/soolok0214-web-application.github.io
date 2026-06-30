@@ -1,22 +1,19 @@
-<?php
-session_start();
-
-$login_email = $_SESSION["email"];
-
+﻿<?php
 $servername = "localhost";
-$username = "soolok";
-$password = "Rabbit5354";
-$dbname = "soolok";
+$username = "myshop";
+$password = "Shop123";
+$dbname = "myshop";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$new_name = ($_POST["name"]);
+$CusID = $_POST["CusID"];
+$new_name = $_POST["Name"];
 $new_password = $_POST["Password"];
 $confirm_password = $_POST["ConfirmPassword"];
-$new_yearjoin = ($_POST["yearjoin"]);
+$new_phone = $_POST["Phone"];
 
 if ($new_password !== $confirm_password) {
     echo "Passwords do not match. <a href=\"editprofile.php\">Go back</a>";
@@ -24,7 +21,7 @@ if ($new_password !== $confirm_password) {
     exit;
 }
 
-$sql = "UPDATE student SET name='$new_name', password='$new_password', yearjoin='$new_yearjoin' WHERE email='$login_email'";
+$sql = "UPDATE customers SET Name='$new_name', Password='$new_password', Phone='$new_phone' WHERE CusID='$CusID'";
 
 if (mysqli_query($conn, $sql)) {
     header("Location: profile.php");
@@ -34,3 +31,5 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
+
+
