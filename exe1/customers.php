@@ -61,7 +61,7 @@ if ($conn->connect_error) {
 mysqli_close($conn);
 ?>
 <a href="products.php"><input type="submit" value="Back"></a>
-<a href="addcustomers.php"><input type="submit" value="Add Customer"></a>
+<a href="addcustomer.php"><input type="submit" value="Add Customer"></a>
     </table>
 </body>
 </html>
