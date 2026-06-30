@@ -1,8 +1,8 @@
 ﻿<?php
     $servername = "localhost";
-    $username = "myshop";
-    $password = "Shop123";
-    $dbname = "myshop";
+    $username = "Myshop";
+    $password = "";
+    $dbname = "Myshop";
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -12,11 +12,9 @@
 
     $ProductID = $_POST["ProductID"];
     $title = $_POST["ProductName"];
-    $author = $_POST["author"];
-    $description = $_POST["description"];
     $price = $_POST["Price"];
 
-    $sql = "INSERT INTO products (ProductID, ProductName, author, description, Price) VALUES ('$ProductID', '$title', '$author', '$description', '$price')";
+    $sql = "INSERT INTO products (ProductID, ProductName, Price) VALUES ('$ProductID', '$title', '$price')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: products.php");

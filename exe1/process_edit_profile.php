@@ -4,9 +4,9 @@ session_start();
 $login_email = $_SESSION["Email"];
 
 $servername = "localhost";
-$username = "myshop";
-$password = "Shop123";
-$dbname = "myshop";
+$username = "Myshop";
+$password = "";
+$dbname = "Myshop";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
