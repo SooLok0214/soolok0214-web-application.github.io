@@ -1,8 +1,8 @@
 ﻿<?php
 $servername = "localhost";
-$username = "Myshop";
-$password = "";
-$dbname = "Myshop";
+$username = "myshop";
+$password = "Shop123";
+$dbname = "myshop";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -27,3 +27,4 @@ if (mysqli_num_rows($result) > 0) {
 
 mysqli_close($conn);
 ?>
+

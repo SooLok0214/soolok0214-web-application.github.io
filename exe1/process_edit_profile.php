@@ -4,9 +4,9 @@ session_start();
 $login_email = $_SESSION["Email"];
 
 $servername = "localhost";
-$username = "Myshop";
-$password = "";
-$dbname = "Myshop";
+$username = "myshop";
+$password = "Shop123";
+$dbname = "myshop";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
@@ -34,4 +34,5 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
+
 
