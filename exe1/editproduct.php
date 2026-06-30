@@ -27,14 +27,10 @@ $ProductID = $_POST['ProductID'];
         <table width="600">
             <tr>
                 <th>ProductName</th>
-                <th>Author</th>
-                <th>Description</th>
                 <th>Price</th>
             </tr>
             <tr>
                 <td><input type="text" name="ProductName" required></td>
-                <td><input type="text" name="author" required></td>
-                <td><input type="text" name="description" required></td>
                 <td><input type="text" name="Price" required></td>
                 <td><input type="submit" value="Submit"></td>
             </tr>
@@ -42,5 +38,4 @@ $ProductID = $_POST['ProductID'];
     </form>
 </body>
 </html>
-
 

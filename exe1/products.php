@@ -1,8 +1,8 @@
 ﻿<?php
     $servername = "localhost";
-    $username = "myshop";
+    $username = "Myshop";
     $password = "";
-    $dbname = "myshop";
+    $dbname = "Myshop";
 $conn = new mysqli($servername, $username, $password, $dbname);
 ?>
 
@@ -25,13 +25,11 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 </style>
 
 <body>
-    <table width="1100">
+    <table width="800">
         <tr>
             <th>ProductID</th>
             <th width="300">ProductName</th>
-            <th width="200">Author</th>
-            <th>Description</th>
-            <th>Price(RM)</th>
+            <th>Price</th>
         </tr>
         <?php
 
@@ -44,8 +42,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
             <tr>
                 <td><?php echo $row['ProductID']; ?></td>
                 <td><?php echo $row['ProductName']; ?></td>
-                <td><?php echo $row['author']; ?></td>
-                <td><?php echo $row['description']; ?></td>
                 <td><?php echo $row['Price']; ?></td>
                 <td>
                     <form action="editproduct.php" method="post">
@@ -68,3 +64,4 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 </body>
 </html>
+

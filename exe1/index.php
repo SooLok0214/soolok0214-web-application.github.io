@@ -1,8 +1,8 @@
 ﻿  <?php
   $servername = "localhost";
-  $username = "myshop";
+  $username = "Myshop";
   $password = "";
-  $dbname = "myshop";
+  $dbname = "Myshop";
 
 if (isset($_POST["Email"]) && isset($_POST["Password"])) {
 
@@ -37,7 +37,7 @@ session_start();
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Login</title>
+      <title>MyShop Login</title>
       <style>
         *{font-size: 20px;}
 
@@ -62,3 +62,5 @@ session_start();
     </div>
   </body>
   </html>
+
+

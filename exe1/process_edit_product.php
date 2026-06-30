@@ -1,8 +1,8 @@
 ﻿<?php
 $servername = "localhost";
-$username = "myshop";
+$username = "Myshop";
 $password = "";
-$dbname = "myshop";
+$dbname = "Myshop";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
@@ -11,11 +11,9 @@ if (!$conn) {
 
 $ProductID = $_POST["ProductID"];
 $new_title = $_POST["ProductName"];
-$new_author = $_POST["author"];
-$new_description = $_POST["description"];
 $new_price = $_POST["Price"];
 
-$sql = "UPDATE products SET ProductName='$new_title', author='$new_author', description='$new_description', Price='$new_price' WHERE ProductID='$ProductID'";
+$sql = "UPDATE products SET ProductName='$new_title', Price='$new_price' WHERE ProductID='$ProductID'";
 
 if (mysqli_query($conn, $sql)) {
     header("Location: products.php");
@@ -26,3 +24,4 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
+

@@ -1,8 +1,8 @@
 ﻿<?php
     $servername = "localhost";
-    $username = "myshop";
+    $username = "Myshop";
     $password = "";
-    $dbname = "myshop";
+    $dbname = "Myshop";
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -41,9 +41,9 @@
             <th>Phone</th>
         </tr>
         <tr>
-            <form action="insertcustomers.php" method="POST">
+            <form action="insertcustomer.php" method="POST">
                 <td><input type="text" name="Name"></td>
-                <td><input type="text" name="customersID"></td>
+                <td><input type="text" name="CusID"></td>
                 <td><input type="text" name="Email"></td>
                 <td><input type="text" name="Password"></td>
                 <td><input type="text" name="Phone"></td>
@@ -52,3 +52,5 @@
         </tr>
 </body>
 </html>
+
+

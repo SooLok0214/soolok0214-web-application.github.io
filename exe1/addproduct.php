@@ -1,8 +1,8 @@
 ﻿<?php
     $servername = "localhost";
-    $username = "myshop";
+    $username = "Myshop";
     $password = "";
-    $dbname = "myshop";
+    $dbname = "Myshop";
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -36,19 +36,16 @@
         <tr>
             <th>ProductID</th>
             <th>ProductName</th>
-            <th>Author</th>
-            <th>Description</th>
             <th>Price</th>
         </tr>
         <tr>
             <form action="insertproduct.php" method="POST">
                 <td><input type="text" name="ProductID" required></td>
                 <td><input type="text" name="ProductName" required></td>
-                <td><input type="text" name="author" required></td>
-                <td><textarea cols="50" rows="4" name="description" required></textarea></td>
                 <td><input type="text" name="Price" required></td>
                 <td><input type="submit" value="add"></td>
             </form>
         </tr>
 </body>
 </html>
+

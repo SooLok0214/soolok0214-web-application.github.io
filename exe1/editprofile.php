@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿<?php
+$CusID = $_POST['CusID'];
+?>
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -19,12 +23,13 @@
 <body>
     <button><a href="profile.php">Back</a></button>
     <form action="process_edit_profile.php" method="POST">
+        <input type="hidden" name="CusID" value="<?php echo $CusID; ?>">
         <table width="600">
             <tr>
                 <th>Name</th>
                 <th>Password</th>
                 <th>Confirm Password</th>
-                <th>Year Joined</th>
+                <th>Phone</th>
             </tr>
             <tr>
                 <td><input type="text" name="Name" required></td>
@@ -37,5 +42,3 @@
     </form>
 </body>
 </html>
-
-

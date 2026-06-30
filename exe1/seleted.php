@@ -1,8 +1,8 @@
 ﻿<?php
 $servername = "localhost";
-$username = "myshop";
+$username = "Myshop";
 $password = "";
-$dbname = "myshop";
+$dbname = "Myshop";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -19,7 +19,7 @@ $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
   // Output data of each row
   while($row = mysqli_fetch_assoc($result)) {
-    echo $row["name"] . " ------ " . $row["email"] . "<br>";
+    echo $row["Name"] . " ------ " . $row["Email"] . "<br>";
   }
 } else {
   echo "0 results";
@@ -27,3 +27,5 @@ if (mysqli_num_rows($result) > 0) {
 
 mysqli_close($conn);
 ?>
+
+

@@ -1,8 +1,8 @@
 ﻿<?php
     $servername = "localhost";
-    $username = "myshop";
+    $username = "Myshop";
     $password = "";
-    $dbname = "myshop";
+    $dbname = "Myshop";
 
     // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -10,3 +10,5 @@
         die('Connection failed: ' . mysqli_connect_error());
     }
     ?>
+
+

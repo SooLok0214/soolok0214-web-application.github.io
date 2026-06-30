@@ -1,8 +1,8 @@
 ﻿<?php
     $servername = "localhost";
-    $username = "myshop";
+    $username = "Myshop";
     $password = "";
-    $dbname = "myshop";
+    $dbname = "Myshop";
 
     // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -47,11 +47,11 @@ if ($conn->connect_error) {
         <tr>
             <form action="editprofile.php" method="POST">
                 <td><?php echo $row['Name'] ?></td>
-                <td><?php echo $row['customersID'] ?></td>
+                <td><?php echo $row['CusID'] ?></td>
                 <td><?php echo $row['Email'] ?></td>
                 <td><?php echo $row['Phone'] ?></td>
                 <td>
-                    <input type="hidden" name="Email" value="<?php echo $row['Email']; ?>">
+                    <input type="hidden" name="CusID" value="<?php echo $row['CusID']; ?>">
                     <input type="submit" value="Edit">
                 </td>
             </form>
@@ -61,7 +61,10 @@ if ($conn->connect_error) {
 mysqli_close($conn);
 ?>
 <a href="products.php"><input type="submit" value="Back"></a>
-<a href="addcustomers.php"><input type="submit" value="Add Customer"></a>
+<a href="addcustomer.php"><input type="submit" value="Add Customer"></a>
     </table>
 </body>
 </html>
+
+
+
