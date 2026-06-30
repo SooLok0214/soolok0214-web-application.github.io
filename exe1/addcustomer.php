@@ -4,11 +4,12 @@
     $password = "Shop123";
     $dbname = "myshop";
 
+    // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
-?>
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,13 +18,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Customer</title>
     <style>
-        table { border-collapse: collapse; }
-        table, th, td { border: 1px solid black; }
+        table{
+            border-collapse: collapse;
+        }
+
+        table,
+        th,
+        td
+        {
+            border: 1px solid black;
+        }
     </style>
 </head>
 <body>
     <button><a class="link" href="customers.php">Back</a></button>
-    <table width="800">
+    <table width = "600">
         <tr>
             <th>Name</th>
             <th>CusID</th>
@@ -32,7 +41,7 @@
             <th>Phone</th>
         </tr>
         <tr>
-            <form action="insertcustomer.php" method="POST">
+            <form action="insertcustomers.php" method="POST">
                 <td><input type="text" name="Name"></td>
                 <td><input type="text" name="CusID"></td>
                 <td><input type="text" name="Email"></td>
@@ -41,8 +50,5 @@
                 <td><input type="submit" value="add"></td>
             </form>
         </tr>
-    </table>
 </body>
 </html>
-
-

@@ -4,12 +4,14 @@
     $password = "Shop123";
     $dbname = "myshop";
 
+    // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
 
-$sql = "INSERT INTO products (ProductName, ProductID, Price) VALUES ('" . $_POST["ProductName"] . "', '" . $_POST["ProductID"] . "', '" . $_POST["Price"] . "')";
+
+$sql = "INSERT INTO products (ProductID, ProductName, author, description, Price) VALUES ('" . $_POST["ProductID"] . "', '" . $_POST["ProductName"] . "', '" . $_POST["author"] . "', '" . $_POST["description"] . "', '" . $_POST["Price"] . "')";
 
 if ($conn->query($sql) === TRUE) {
   header("Location: products.php");
@@ -19,5 +21,3 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 ?>
-
-

@@ -4,16 +4,19 @@
     $password = "Shop123";
     $dbname = "myshop";
 
+    // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
 
-    $ProductName = $_POST["ProductName"];
     $ProductID = $_POST["ProductID"];
-    $Price = $_POST["Price"];
+    $title = $_POST["ProductName"];
+    $author = $_POST["author"];
+    $description = $_POST["description"];
+    $price = $_POST["Price"];
 
-    $sql = "INSERT INTO products (ProductName, ProductID, Price) VALUES ('$ProductName', '$ProductID', '$Price')";
+    $sql = "INSERT INTO products (ProductID, ProductName, author, description, Price) VALUES ('$ProductID', '$title', '$author', '$description', '$price')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: products.php");
@@ -23,5 +26,3 @@
 
     mysqli_close($conn);
 ?>
-
-

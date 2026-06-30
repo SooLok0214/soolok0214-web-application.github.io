@@ -4,10 +4,12 @@
     $password = "Shop123";
     $dbname = "myshop";
 
+    // Create connection
     $conn = mysqli_connect($servername, $username, $password, $dbname);
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
+
 
 $sql = "INSERT INTO customers (Name, CusID, Email, Password, Phone) VALUES ('" . $_POST["Name"] . "', '" . $_POST["CusID"] . "', '" . $_POST["Email"] . "', '" . $_POST["Password"] . "', '" . $_POST["Phone"] . "')";
 
@@ -19,5 +21,3 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 ?>
-
-
