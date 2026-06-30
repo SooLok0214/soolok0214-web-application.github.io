@@ -1,7 +1,7 @@
 ﻿<?php
 $servername = "localhost";
 $username = "myshop";
-$password = "Shop123";
+$password = "";
 $dbname = "myshop";
 
 // Create connection
@@ -27,4 +27,3 @@ if (mysqli_num_rows($result) > 0) {
 
 mysqli_close($conn);
 ?>
-

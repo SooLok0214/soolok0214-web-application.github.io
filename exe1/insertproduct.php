@@ -1,7 +1,7 @@
 ﻿<?php
     $servername = "localhost";
     $username = "myshop";
-    $password = "Shop123";
+    $password = "";
     $dbname = "myshop";
 
     // Create connection
@@ -11,7 +11,7 @@
     }
 
 
-$sql = "INSERT INTO products (ProductID, ProductName, Price) VALUES ('" . $_POST["ProductID"] . "', '" . $_POST["ProductName"] . "', '" . $_POST["Price"] . "')";
+$sql = "INSERT INTO products (ProductID, ProductName, author, description, Price) VALUES ('" . $_POST["ProductID"] . "', '" . $_POST["ProductName"] . "', '" . $_POST["author"] . "', '" . $_POST["description"] . "', '" . $_POST["Price"] . "')";
 
 if ($conn->query($sql) === TRUE) {
   header("Location: products.php");
@@ -21,4 +21,3 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 ?>
-

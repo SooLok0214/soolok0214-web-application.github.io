@@ -1,7 +1,7 @@
 ﻿<?php
     $servername = "localhost";
     $username = "myshop";
-    $password = "Shop123";
+    $password = "";
     $dbname = "myshop";
 
     // Create connection
@@ -12,9 +12,11 @@
 
     $ProductID = $_POST["ProductID"];
     $title = $_POST["ProductName"];
+    $author = $_POST["author"];
+    $description = $_POST["description"];
     $price = $_POST["Price"];
 
-    $sql = "INSERT INTO products (ProductID, ProductName, Price) VALUES ('$ProductID', '$title', '$price')";
+    $sql = "INSERT INTO products (ProductID, ProductName, author, description, Price) VALUES ('$ProductID', '$title', '$author', '$description', '$price')";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: products.php");
@@ -24,4 +26,3 @@
 
     mysqli_close($conn);
 ?>
-

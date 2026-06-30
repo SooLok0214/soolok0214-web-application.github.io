@@ -1,7 +1,7 @@
 ﻿<?php
     $servername = "localhost";
     $username = "myshop";
-    $password = "Shop123";
+    $password = "";
     $dbname = "myshop";
 
     // Create connection
@@ -10,4 +10,3 @@
         die('Connection failed: ' . mysqli_connect_error());
     }
     ?>
-
