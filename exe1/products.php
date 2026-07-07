@@ -199,9 +199,10 @@ $conn = new mysqli($servername, $username, $password, $dbname);
         mysqli_close($conn);
         ?>
 
+
         <a href="profile.php"><input type="submit" value="Profile"></a>
         <a href="addproduct.php"><input type="submit" value="Add Product"></a>
-        <a href="customers.php"><input type="submit" value="All Customers"></a>
+        <!-- <a href="customers.php"><input type="submit" value="All Customers"></a> -->
         <a href=""><input type="submit" value="Logout"></a>
     </table>
 

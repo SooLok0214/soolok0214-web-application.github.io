@@ -13,15 +13,13 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$new_name = ($_POST["name"]);
+$new_name = $_POST["name"];
 $new_password = $_POST["Password"];
 $confirm_password = $_POST["ConfirmPassword"];
-$new_yearjoin = ($_POST["yearjoin"]);
+$new_yearjoin = $_POST["yearjoin"];
 
 if ($new_password !== $confirm_password) {
-    echo "Passwords do not match. <a href=\"editprofile.php\">Go back</a>";
-    mysqli_close($conn);
-    exit;
+    header("Location: editprofile.php?error=password_nomatch");
 }
 
 $sql = "UPDATE student SET name='$new_name', password='$new_password', yearjoin='$new_yearjoin' WHERE email='$login_email'";

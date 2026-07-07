@@ -6,6 +6,12 @@
 
 if (isset($_POST["email"]) && isset($_POST["password"])) {
 
+  if (empty($_POST["email"])){
+    echo("Please fill in Email.");
+  } else if (empty($_POST["password"])){
+    echo("Please fill in Password.");
+  }
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 

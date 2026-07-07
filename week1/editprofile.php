@@ -18,6 +18,7 @@
 
 <body>
     <button><a href="profile.php">Back</a></button>
+    
     <form action="process_edit_profile.php" method="POST">
         <table width="600">
             <tr>
@@ -34,6 +35,12 @@
                 <td><input type="submit" value="Submit"></td>
             </tr>
         </table>
+            <?php
+                if (isset($_GET['error']) == 'password_nomatch') {
+                echo '<p style="color:red;
+                                margin: 5px 0;">Passwords do not match.</p>';
+                }
+            ?>
     </form>
 </body>
 </html>

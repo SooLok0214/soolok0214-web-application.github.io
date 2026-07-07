@@ -4,7 +4,18 @@
     $password = "Rabbit5354";
     $dbname = "soolok";
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+session_start();
+
+if(!isset($_SESSION["email"])) {
+    header("Location: index.php");
+}
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,7 +73,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
         <a href="profile.php"><input type="submit" value="Profile"></a>
         <a href="addbook.php"><input type="submit" value="AddBook"></a>
-        <a href="student.php"><input type="submit" value="All Students"></a>
+        <!-- <a href="student.php"><input type="submit" value="All Students"></a> -->
         <a href=""><input type="submit" value="Logout"></a>
     </table>
 
