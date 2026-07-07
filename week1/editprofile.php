@@ -44,7 +44,7 @@
         <td><input type="text" name="name" required></td>
         <td><input type="password" name="Password" required minlength="6"></td>
         <td><input type="password" name="ConfirmPassword" required minlength="6"></td>
-        <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="yearjoin" required></td>
+        <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="yearjoin" required maxlength="4"></td>
         <td><input type="submit" value="Submit"></td>
     </tr>
 </table>

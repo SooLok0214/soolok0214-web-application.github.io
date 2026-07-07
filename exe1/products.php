@@ -4,6 +4,12 @@
     $password = "";
     $dbname = "Myshop";
 $conn = new mysqli($servername, $username, $password, $dbname);
+
+session_start();
+
+if(!isset($_SESSION["email"])) {
+    header("Location: index.php");
+}
 ?>
 
 <!DOCTYPE html>

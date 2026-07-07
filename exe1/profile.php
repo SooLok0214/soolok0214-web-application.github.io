@@ -181,6 +181,7 @@ if ($conn->connect_error) {
             <th>Name</th>
             <th>CusID</th>
             <th>Email</th>
+            <th>Join Year</th>
             <th>Phone</th>
         </tr>
         <?php
@@ -194,6 +195,7 @@ if ($conn->connect_error) {
                 <td><?php echo $row['Name'] ?></td>
                 <td><?php echo $row['CusID'] ?></td>
                 <td><?php echo $row['Email'] ?></td>
+                <td><?php echo $row['JoinYear'] ?></td>
                 <td><?php echo $row['Phone'] ?></td>
                 <td>
                     <input type="hidden" name="CusID" value="<?php echo $row['CusID']; ?>">

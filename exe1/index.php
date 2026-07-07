@@ -7,6 +7,12 @@
 
 if (isset($_POST["Email"]) && isset($_POST["Password"])) {
 
+  if (empty($_POST["Email"])){
+    $message = "Please fill in Email.";
+  } else if (empty($_POST["Password"])){
+    $message = "Please fill in Password.";
+  }
+
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -119,4 +125,5 @@ session_start();
     </div>
   </body>
   </html>
+
 

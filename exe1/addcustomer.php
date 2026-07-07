@@ -178,6 +178,7 @@
             <th>CusID</th>
             <th>Email</th>
             <th>Password</th>
+            <th>Join Year</th>
             <th>Phone</th>
         </tr>
         <tr>
@@ -186,12 +187,14 @@
                 <td><input type="text" name="CusID"></td>
                 <td><input type="text" name="Email"></td>
                 <td><input type="text" name="Password"></td>
+                <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="JoinYear" required maxlength="4"></td>
                 <td><input type="text" name="Phone"></td>
                 <td><input type="submit" value="add"></td>
             </form>
         </tr>
 </body>
 </html>
+
 
 
 

@@ -11,7 +11,7 @@
     }
 
 
-$sql = "INSERT INTO customers (Name, CusID, Email, Password, Phone) VALUES ('" . $_POST["Name"] . "', '" . $_POST["CusID"] . "', '" . $_POST["Email"] . "', '" . $_POST["Password"] . "', '" . $_POST["Phone"] . "')";
+$sql = "INSERT INTO customers (Name, CusID, Email, Password, JoinYear, Phone) VALUES ('" . $_POST["Name"] . "', '" . $_POST["CusID"] . "', '" . $_POST["Email"] . "', '" . $_POST["Password"] . "', '" . $_POST["JoinYear"] . "', '" . $_POST["Phone"] . "')";
 
 if ($conn->query($sql) === TRUE) {
   header("Location: customers.php");
@@ -21,6 +21,7 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 ?>
+
 
 
 

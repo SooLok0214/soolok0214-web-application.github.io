@@ -12,18 +12,18 @@ if (!$conn) {
 }
 
 $CusID = $_POST["CusID"];
-$new_name = ($_POST["Name"]);
+$new_name = $_POST["Name"];
 $new_password = $_POST["Password"];
 $confirm_password = $_POST["ConfirmPassword"];
-$new_phone = ($_POST["Phone"]);
+$new_joinyear = $_POST["JoinYear"];
+$new_phone = $_POST["Phone"];
 
 if ($new_password !== $confirm_password) {
-    echo "Passwords do not match. <a href=\"editprofile.php\">Go back</a>";
-    mysqli_close($conn);
+    header("Location: editprofile.php?error=Passwords do not match");
     exit;
 }
 
-$sql = "UPDATE customers SET Name='$new_name', Password='$new_password', Phone='$new_phone' WHERE CusID='$CusID'";
+$sql = "UPDATE customers SET Name='$new_name', Password='$new_password', JoinYear='$new_joinyear', Phone='$new_phone' WHERE CusID='$CusID'";
 
 if (mysqli_query($conn, $sql)) {
     header("Location: profile.php");
@@ -33,4 +33,3 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
-

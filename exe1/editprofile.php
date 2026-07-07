@@ -1,8 +1,4 @@
-﻿<?php
-$CusID = $_POST['CusID'];
-?>
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -165,32 +161,31 @@ $CusID = $_POST['CusID'];
 
 <body>
     <button><a href="profile.php">Back</a></button>
+    
     <form action="process_edit_profile.php" method="POST">
         <input type="hidden" name="CusID" value="<?php echo $CusID; ?>">
-        <table width="600">
+        <table>
             <tr>
                 <th>Name</th>
                 <th>Password</th>
                 <th>Confirm Password</th>
+                <th>Join Year</th>
                 <th>Phone</th>
             </tr>
             <tr>
                 <td><input type="text" name="Name" required></td>
-                <td><input type="password" name="Password"></td>
-                <td><input type="password" name="ConfirmPassword"></td>
+                <td><input type="password" name="Password" required minlength="6"></td>
+                <td><input type="password" name="ConfirmPassword" required minlength="6"></td>
+                <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="JoinYear" required maxlength="4"></td>
                 <td><input type="text" name="Phone" required></td>
                 <td><input type="submit" value="Submit"></td>
             </tr>
         </table>
+        <?php
+            if (isset($_GET['error'])){
+                echo '<div style="color:red; margin: 5px 0;">' . $_GET['error'] . '</div>';
+            }
+        ?>
     </form>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
