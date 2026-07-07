@@ -13,6 +13,19 @@
         table, th, td {
             border: 1px solid black;
         }
+
+        th{
+            width: 200px;
+        }
+        td{
+            align: center;
+            align-items: center;
+        }
+
+        input{
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
@@ -20,25 +33,24 @@
     <button><a href="profile.php">Back</a></button>
     
     <form action="process_edit_profile.php" method="POST">
-        <table width="600">
-            <tr>
-                <th>Name</th>
-                <th>Password</th>
-                <th>Confirm Password</th>
-                <th>Year Joined</th>
-            </tr>
-            <tr>
-                <td><input type="text" name="name" required></td>
-                <td><input type="password" name="Password"></td>
-                <td><input type="password" name="ConfirmPassword"></td>
-                <td><input type="text" name="yearjoin" required></td>
-                <td><input type="submit" value="Submit"></td>
-            </tr>
-        </table>
+        <table >
+    <tr>
+        <th>Name</th>
+        <th>Password</th>
+        <th>Confirm Password</th>
+        <th>Year Joined</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="name" required></td>
+        <td><input type="password" name="Password" required minlength="6"></td>
+        <td><input type="password" name="ConfirmPassword" required minlength="6"></td>
+        <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="yearjoin" required></td>
+        <td><input type="submit" value="Submit"></td>
+    </tr>
+</table>
             <?php
-                if (isset($_GET['error']) == 'password_nomatch') {
-                echo '<p style="color:red;
-                                margin: 5px 0;">Passwords do not match.</p>';
+                if (isset($_GET['error'])){
+                    echo '<div style="color:red; margin: 5px 0;">' . $_GET['error'] . '</div>';
                 }
             ?>
     </form>
