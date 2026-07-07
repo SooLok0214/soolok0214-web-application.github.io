@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     $servername = "localhost";
     $username = "Myshop";
     $password = "";
@@ -10,6 +10,8 @@
         die('Connection failed: ' . mysqli_connect_error());
     }
     ?>
+
+
 
 
 

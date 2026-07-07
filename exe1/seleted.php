@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $servername = "localhost";
 $username = "Myshop";
 $password = "";
@@ -27,6 +27,8 @@ if (mysqli_num_rows($result) > 0) {
 
 mysqli_close($conn);
 ?>
+
+
 
 
 

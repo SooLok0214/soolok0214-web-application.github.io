@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     $servername = "localhost";
     $username = "Myshop";
     $password = "";
@@ -21,6 +21,8 @@ if ($conn->query($sql) === TRUE) {
 
 mysqli_close($conn);
 ?>
+
+
 
 
 

@@ -1,4 +1,4 @@
-﻿  <?php
+  <?php
   $servername = "localhost";
   $username = "Myshop";
   $password = "";
@@ -56,45 +56,52 @@ session_start();
             max-width: 1280px;
             margin: 0 auto;
             padding: 80px 40px;
-            background: #f7f0ff;
-            color: #2f2140;
+            background: #fff0f6;
+            color: #2b2026;
             text-align: center;
         }
 
         #email {
             width: 420px;
             margin: 80px auto;
-            padding: 30px;
+            padding: 32px;
             background: #ffffff;
-            border: 1px solid #d9c4f2;
-            border-radius: 10px;
-            box-shadow: 0 10px 24px rgba(93, 62, 130, 0.12);
+            border: 1px solid #ffc1dc;
+            border-radius: 12px;
+            box-shadow: 0 10px 24px rgba(255, 79, 154, 0.14);
             text-align: left;
+            border-top: 8px solid #111111;
         }
 
         h2 {
-            color: #4b2f6f;
+            color: #d9367d;
             margin: 14px 0 8px;
             font-size: 20px;
         }
 
         input {
             width: 100%;
-            border: 1px solid #c7a8e8;
-            border-radius: 5px;
+            border: 1px solid #ffaad0;
+            border-radius: 6px;
             padding: 10px;
-            color: #2f2140;
+            color: #2b2026;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #111111;
+            box-shadow: 0 0 0 3px rgba(255, 79, 154, 0.18);
         }
 
         .error {
-            color: #7a3fb0;
+            color: #d9367d;
             text-align: center;
             margin: 16px 0 0;
             font-weight: bold;
         }
 
         input[type="submit"] {
-            background: #9b70cf;
+            background: #ff4f9a;
             color: #ffffff;
             border: none;
             border-radius: 6px;
@@ -105,9 +112,9 @@ session_start();
         }
 
         input[type="submit"]:hover {
-            background: #8258b8;
+            background: #111111;
         }
-      </style>
+    </style>
   </head>
   <body>
     <div id="email">
@@ -125,5 +132,9 @@ session_start();
     </div>
   </body>
   </html>
+
+
+
+
 
 

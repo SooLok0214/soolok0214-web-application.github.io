@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 $servername = "localhost";
@@ -33,3 +33,5 @@ if (mysqli_query($conn, $sql)) {
 
 mysqli_close($conn);
 ?>
+
+

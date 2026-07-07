@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     $servername = "localhost";
     $username = "Myshop";
     $password = "";
@@ -29,137 +29,128 @@ if ($conn->connect_error) {
             min-width: 480px;
             max-width: 1280px;
             margin: 0 auto;
-            padding: 40px 35px 40px 270px;
-            background: #f7f0ff;
-            color: #2f2140;
-            position: relative;
+            padding: 38px 38px 38px 260px;
+            background: #fff0f6;
+            color: #2b2026;
         }
 
-        body::before {
-            content: "MyShop";
+        .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 230px;
             bottom: 0;
-            padding-top: 55px;
-            background: #3a2456;
-            color: #ffffff;
-            text-align: center;
+            width: 220px;
+            padding: 26px 16px;
+            background: #111111;
+            box-shadow: 8px 0 24px rgba(0, 0, 0, 0.28);
+        }
+
+                .brand {
+            margin-bottom: 26px;
+            padding: 16px 10px;
+            color: #ff7ab8;
             font-size: 28px;
             font-weight: bold;
-            box-shadow: 8px 0 24px rgba(68, 43, 98, 0.22);
+            text-align: center;
+            border-bottom: 1px solid #3a3a3a;
         }
-
-        body > a,
-        table > a,
-        body > button {
-            position: fixed;
-            left: 30px;
-            width: 170px;
+.sidebar a {
             display: block;
-            margin: 0;
-            z-index: 10;
-        }
-
-        body > a:nth-of-type(1),
-        table > a:nth-of-type(1),
-        body > button:nth-of-type(1) { top: 135px; }
-
-        body > a:nth-of-type(2),
-        table > a:nth-of-type(2),
-        body > button:nth-of-type(2) { top: 185px; }
-
-        body > a:nth-of-type(3),
-        table > a:nth-of-type(3),
-        body > button:nth-of-type(3) { top: 235px; }
-
-        body > a:nth-of-type(4),
-        table > a:nth-of-type(4),
-        body > button:nth-of-type(4) { top: 285px; }
-
-        body > a:nth-of-type(5),
-        table > a:nth-of-type(5),
-        body > button:nth-of-type(5) { top: 335px; }
-
-        body > a input[type="submit"],
-        table > a input[type="submit"],
-        body > button {
-            width: 170px;
-            background: transparent;
-            color: #f5edff;
-            border: none;
+            margin: 10px 0;
+            padding: 12px 12px;
+            color: #f7f7f7;
+            text-decoration: none;
             border-radius: 8px;
-            padding: 12px 14px;
-            text-align: left;
-            font-size: 17px;
             font-weight: bold;
-            box-shadow: none;
         }
 
-        body > a input[type="submit"]:hover,
-        table > a input[type="submit"]:hover,
-        body > button:hover {
-            background: #6f4aa0;
+        .sidebar a:hover {
+            background: #ff4f9a;
             color: #ffffff;
         }
 
-        table {
-            width: 92%;
+        .sidebar span {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            margin-right: 10px;
+            border-radius: 6px;
+            background: #ff7ab8;
+            color: #111111;
+            text-align: center;
+            line-height: 26px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+table {
+            width: 94%;
             max-width: 980px;
-            margin: 40px auto;
+            margin: 26px auto;
             border-collapse: collapse;
             background: #ffffff;
-            border: 1px solid #d9c4f2;
-            border-radius: 10px;
+            border: 1px solid #ffc1dc;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 10px 24px rgba(93, 62, 130, 0.12);
+            box-shadow: 0 10px 24px rgba(255, 79, 154, 0.14);
         }
 
         th {
-            background: #d8bff0;
-            color: #2f2140;
+            background: #ffb3d2;
+            color: #241018;
             font-weight: bold;
         }
 
         th,
         td {
-            border: 1px solid #d9c4f2;
+            border: 1px solid #ffc1dc;
             padding: 12px 14px;
             text-align: left;
             vertical-align: middle;
         }
 
         tr:nth-child(even) {
-            background: #fbf7ff;
+            background: #fff7fb;
+        }
+
+        tr:hover {
+            background: #ffe3ef;
         }
 
         input,
         textarea {
-            border: 1px solid #c7a8e8;
-            border-radius: 5px;
-            padding: 8px;
-            color: #2f2140;
+            border: 1px solid #ffaad0;
+            border-radius: 6px;
+            padding: 9px;
+            color: #2b2026;
+            outline: none;
+            background: #ffffff;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #111111;
+            box-shadow: 0 0 0 3px rgba(255, 79, 154, 0.18);
         }
 
         input[type="submit"],
         button {
-            background: #9b70cf;
+            background: #ff4f9a;
             color: #ffffff;
             border: none;
             border-radius: 6px;
-            padding: 9px 14px;
+            padding: 9px 15px;
             margin: 4px;
             cursor: pointer;
+            font-weight: bold;
         }
 
         input[type="submit"]:hover,
         button:hover {
-            background: #8258b8;
+            background: #111111;
         }
 
         a {
-            color: #6f43a8;
+            color: #d9367d;
             text-decoration: none;
         }
 
@@ -168,11 +159,20 @@ if ($conn->connect_error) {
         }
 
         h2 {
-            color: #4b2f6f;
+            color: #d9367d;
         }
     </style>
 </head>
 <body>
+    <div class="sidebar">
+        <div class="brand">MyShop</div>
+        <a href="products.php"><span>&#128722;</span>Products</a>
+        <a href="addproduct.php"><span>&#43;</span>Add Product</a>
+        <a href="customers.php"><span>&#128101;</span>Customers</a>
+        <a href="addcustomer.php"><span>&#43;</span>Add Customer</a>
+        <a href="profile.php"><span>&#128100;</span>Profile</a>
+        <a href="logout.php"><span>&#9211;</span>Logout</a>
+    </div>
     <table width="800">
         <tr>
             <th>Name</th>
@@ -204,11 +204,22 @@ if ($conn->connect_error) {
 }
 mysqli_close($conn);
 ?>
-<a href="products.php"><input type="submit" value="Back"></a>
-<a href="addcustomer.php"><input type="submit" value="Add Customer"></a>
+
     </table>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

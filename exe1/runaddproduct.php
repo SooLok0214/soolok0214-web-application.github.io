@@ -1,4 +1,4 @@
-﻿<?php
+<?php
     $servername = "localhost";
     $username = "Myshop";
     $password = "";
@@ -24,5 +24,7 @@
 
     mysqli_close($conn);
 ?>
+
+
 
 
