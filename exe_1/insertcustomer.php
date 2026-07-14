@@ -1,4 +1,4 @@
-<?php
+﻿<?php
     $servername = "localhost";
     $username = "Myshop";
     $password = "";
@@ -11,17 +11,13 @@
     }
 
 
-$sql = "INSERT INTO products (ProductID, ProductName, Price) VALUES ('" . $_POST["ProductID"] . "', '" . $_POST["ProductName"] . "', '" . $_POST["Price"] . "')";
+$sql = "INSERT INTO customers (Name, CusID, Email, Password, JoinYear, Phone) VALUES ('" . $_POST["Name"] . "', '" . $_POST["CusID"] . "', '" . $_POST["Email"] . "', '" . $_POST["Password"] . "', '" . $_POST["JoinYear"] . "', '" . $_POST["Phone"] . "')";
 
 if ($conn->query($sql) === TRUE) {
-  header("Location: products.php");
+  header("Location: customers.php");
 } else {
   echo "Error: " . $sql . "<br>" . $conn->error;
 }
 
 mysqli_close($conn);
 ?>
-
-
-
-
