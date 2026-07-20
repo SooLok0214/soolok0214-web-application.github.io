@@ -1,20 +1,116 @@
 body {
     min-height: 100vh;
-    padding: 30px 16px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+}
+
+.login-page {
+    width: 100%;
+    padding: 58px 20px 20px;
+}
+
+.login-intro {
+    width: 100%;
+    margin: 0 auto 40px;
+    text-align: center;
+}
+
+.torii {
+    position: relative;
+    width: 134px;
+    height: 92px;
+    margin: 0 auto 6px;
+}
+
+.torii span {
+    position: absolute;
+    display: block;
+    background: var(--pink-main);
+}
+
+.torii-top {
+    top: 0;
+    left: 0;
+    width: 134px;
+    height: 10px;
+    border-radius: 5px 5px 2px 2px;
+}
+
+.torii-beam {
+    top: 18px;
+    left: 10px;
+    width: 114px;
+    height: 9px;
+}
+
+.torii-leg {
+    top: 26px;
+    width: 10px;
+    height: 66px;
+}
+
+.torii-leg-left {
+    left: 28px;
+    transform: skew(-3deg);
+}
+
+.torii-leg-right {
+    right: 28px;
+    transform: skew(3deg);
+}
+
+.intro-label {
+    margin: 0 0 14px;
+    color: var(--pink-dark);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.22em;
+}
+
+.login-intro h1 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 31px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    line-height: 1.45;
+}
+
+.intro-highlight {
+    font-size: 26px;
 }
 
 #email {
     width: 100%;
     max-width: 420px;
+    margin: 0 auto;
     padding: 28px 22px;
     border: 1px solid var(--pink-border);
     border-radius: 24px;
     background: #fffdfb;
     box-shadow: 0 22px 60px rgba(122, 58, 82, 0.14);
+}
+
+#email .login-message {
+    margin: 0 0 18px;
+    color: var(--red-700);
+    font-weight: bold;
+    text-align: center;
+}
+
+@media (max-width: 428px) {
+    .login-page {
+        padding-top: 46px;
+    }
+
+    .login-intro h1 {
+        font-size: 27px;
+    }
+
+    .intro-text br {
+        display: none;
+    }
 }
 
 #email form {

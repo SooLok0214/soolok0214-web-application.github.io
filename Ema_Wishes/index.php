@@ -3,17 +3,19 @@ $servername = "localhost";
 $username = "Ema_Wishes";
 $password = "123123";
 $dbname = "ema_wishes";
+$message = "";
 
 if (isset($_POST["email"]) && isset($_POST["password"])) {
 
     if (empty($_POST["email"])) {
-        echo ("Please fill in Email.");
+        $message = "Please fill in Email.";
     } else if (empty($_POST["password"])) {
-        echo ("Please fill in Password.");
+        $message = "Please fill in Password.";
     }
-
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
+
+    $conn->set_charset("utf8mb4");
 
     // Check connection
     if ($conn->connect_error) {
@@ -31,7 +33,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         header("Location: home.php");
         exit();
     } else {
-        echo "No Found User";
+        $message = "No Found User";
     }
 }
 ?>
@@ -48,21 +50,40 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 </head>
 
 <body>
-    <div id="email">
-        <form target="_self" method="POST">
-            <h2>Enter Your Email:</h2>
-            <input type="text" name="email">
-            <br>
+    <main class="login-page">
+        <section class="login-intro">
+            <div class="torii" aria-hidden="true">
+                <span class="torii-top"></span>
+                <span class="torii-beam"></span>
+                <span class="torii-leg torii-leg-left"></span>
+                <span class="torii-leg torii-leg-right"></span>
+            </div>
 
-            <h2>Password:</h2>
-            <input type="password" name="password">
-            <input type="submit">
-        </form>
+            <p class="intro-label">ONLINE EMA EXPERIENCE</p>
+            <h1>Let Your Wish<br><span class="intro-highlight">In The Spring Breeze</span></h1>
+        </section>
 
-        <p><a href="register.php">Register New Account</a></p>
-    </div>
+        <div id="email">
+            <?php if ($message != "") { ?>
+                <p class="login-message"><?php echo $message; ?></p>
+            <?php } ?>
 
-    <?php require __DIR__ . '/includes/footer.php'; ?>
+            <form target="_self" method="POST">
+                <h2>Enter Your Email:</h2>
+                <input type="text" name="email">
+                <br>
+
+                <h2>Password:</h2>
+                <input type="password" name="password">
+                <input type="submit">
+            </form>
+
+            <p><a href="register.php">Register New Account</a></p>
+        </div>
+    </main>
+    <?php
+    require __DIR__ . "/includes/footer.php";
+    ?>
 </body>
 
 </html>

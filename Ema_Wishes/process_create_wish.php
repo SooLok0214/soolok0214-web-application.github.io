@@ -116,6 +116,14 @@ mysqli_stmt_bind_param(
 );
 
 if (mysqli_stmt_execute($insertStmt)) {
+    $countSql = "UPDATE users
+                 SET wishcount = wishcount + 1
+                 WHERE userID = ?";
+    $countStmt = mysqli_prepare($conn, $countSql);
+    mysqli_stmt_bind_param($countStmt, "s", $userID);
+    mysqli_stmt_execute($countStmt);
+    mysqli_stmt_close($countStmt);
+
     header("Location: home.php");
     exit();
 } else {

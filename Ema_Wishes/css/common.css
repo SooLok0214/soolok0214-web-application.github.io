@@ -1,10 +1,31 @@
 :root {
-    --pink-light: #fff8fb;
-    --pink-border: #ffd7e7;
-    --pink-main: #df648f;
-    --pink-dark: #bd456f;
-    --text-main: #38272d;
-    --text-light: #806a72;
+    --pink-50: #fff8fb;
+    --pink-100: #ffeef5;
+    --pink-200: #ffd7e7;
+    --pink-300: #ffb8d2;
+    --pink-400: #f58db5;
+    --pink-500: #df648f;
+    --pink-600: #bd456f;
+    --red-700: #8f344d;
+    --ink: #38272d;
+    --muted: #806a72;
+    --paper: #fffdf8;
+    --wood: #e9c89b;
+    --wood-dark: #ad7854;
+    --page-background: #f2edf0;
+    --page-shadow: rgba(90, 47, 64, 0.18);
+    --footer-border: #ff9dc2;
+    --footer-text: #fff7fa;
+    --footer-symbol: #ffd4e2;
+    --footer-muted: #f6ccd9;
+    --serif: "Yu Mincho", "Hiragino Mincho ProN", "Noto Serif TC", serif;
+    --sans: "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
+    --pink-light: var(--pink-50);
+    --pink-border: var(--pink-200);
+    --pink-main: var(--pink-500);
+    --pink-dark: var(--pink-600);
+    --text-main: var(--ink);
+    --text-light: var(--muted);
 }
 
 * {
@@ -13,7 +34,7 @@
 
 html {
     min-height: 100%;
-    background: #f2edf0;
+    background: var(--page-background);
 }
 
 body {
@@ -24,9 +45,15 @@ body {
     overflow-x: hidden;
     color: var(--text-main);
     background: var(--pink-light);
-    box-shadow: 0 0 70px rgba(90, 47, 64, 0.18);
-    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    box-shadow: 0 0 70px var(--page-shadow);
+    font-family: var(--sans);
     line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+    font-family: var(--serif);
 }
 
 button,
@@ -41,11 +68,32 @@ a {
     color: inherit;
 }
 
-footer {
-    margin-top: 24px;
-    color: var(--text-light);
+.site-footer {
+    width: 100%;
+    margin-top: 32px;
+    padding: 28px 18px 24px;
+    border-top: 1px solid var(--footer-border);
+    color: var(--footer-text);
+    background: var(--pink-400);
     font-size: 13px;
     text-align: center;
+}
+
+.footer-symbol {
+    margin-bottom: 8px;
+    color: var(--footer-symbol);
+    font-size: 25px;
+    line-height: 1;
+}
+
+.site-footer p {
+    margin: 0 0 8px;
+}
+
+.site-footer small {
+    color: var(--footer-muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
 }
 
 @media (max-width: 428px) {

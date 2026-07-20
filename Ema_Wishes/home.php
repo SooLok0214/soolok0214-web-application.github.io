@@ -84,3 +84,7 @@ require __DIR__ . "/includes/header.php";
         </tr>
     <?php } ?>
 </table
+    <?php
+    mysqli_close($conn);
+    require __DIR__ . "/includes/footer.php";
+    ?>
