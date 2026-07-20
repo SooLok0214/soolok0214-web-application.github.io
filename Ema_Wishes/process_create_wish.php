@@ -1,0 +1,126 @@
+<?php
+session_start();
+
+$servername = "localhost";
+$username = "Ema_Wishes";
+$password = "123123";
+$dbname = "ema_wishes";
+
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+
+mysqli_set_charset($conn, "utf8mb4");
+
+if (!isset($_SESSION["userID"])) {
+    header("Location: index.php");
+    exit();
+}
+
+$userID = $_SESSION["userID"];
+$categoryID = $_POST["categoryID"] ?? "";
+$wishtext = trim($_POST["wishtext"] ?? "");
+
+if ($categoryID == "" || $wishtext == "") {
+    echo "Please select a category and enter your wish.";
+    echo '<p><a href="create_wish.php">Back</a></p>';
+    exit();
+}
+
+$userSql = "SELECT username, gender FROM users WHERE userID = ?";
+$userStmt = mysqli_prepare($conn, $userSql);
+mysqli_stmt_bind_param($userStmt, "s", $userID);
+mysqli_stmt_execute($userStmt);
+$userResult = mysqli_stmt_get_result($userStmt);
+$user = mysqli_fetch_assoc($userResult);
+mysqli_stmt_close($userStmt);
+
+if (!$user) {
+    session_destroy();
+    header("Location: index.php");
+    exit();
+}
+
+$categorySql = "SELECT categoryID FROM wishcategories WHERE categoryID = ?";
+$categoryStmt = mysqli_prepare($conn, $categorySql);
+mysqli_stmt_bind_param($categoryStmt, "s", $categoryID);
+mysqli_stmt_execute($categoryStmt);
+$categoryResult = mysqli_stmt_get_result($categoryStmt);
+$category = mysqli_fetch_assoc($categoryResult);
+mysqli_stmt_close($categoryStmt);
+
+if (!$category) {
+    echo "Category is invalid.";
+    echo '<p><a href="create_wish.php">Back</a></p>';
+    exit();
+}
+
+$userWishSql = "SELECT cardID FROM wishes WHERE userID = ?";
+$userWishStmt = mysqli_prepare($conn, $userWishSql);
+mysqli_stmt_bind_param($userWishStmt, "s", $userID);
+mysqli_stmt_execute($userWishStmt);
+$userWishResult = mysqli_stmt_get_result($userWishStmt);
+$userWish = mysqli_fetch_assoc($userWishResult);
+mysqli_stmt_close($userWishStmt);
+
+if ($userWish) {
+    echo "This user already has a wish.";
+    echo '<p><a href="home.php">Back to Wish List</a></p>';
+    exit();
+}
+
+$categoryWishSql = "SELECT cardID FROM wishes WHERE categoryID = ?";
+$categoryWishStmt = mysqli_prepare($conn, $categoryWishSql);
+mysqli_stmt_bind_param($categoryWishStmt, "s", $categoryID);
+mysqli_stmt_execute($categoryWishStmt);
+$categoryWishResult = mysqli_stmt_get_result($categoryWishStmt);
+$categoryWish = mysqli_fetch_assoc($categoryWishResult);
+mysqli_stmt_close($categoryWishStmt);
+
+if ($categoryWish) {
+    echo "This category already has a wish.";
+    echo '<p><a href="create_wish.php">Back</a></p>';
+    exit();
+}
+
+$idSql = "SELECT MAX(CAST(SUBSTRING(cardID, 2) AS UNSIGNED)) AS largestID FROM wishes";
+$idResult = mysqli_query($conn, $idSql);
+$idRow = mysqli_fetch_assoc($idResult);
+$nextNumber = (int) $idRow["largestID"] + 1;
+
+if ($nextNumber < 1001) {
+    $nextNumber = 1001;
+}
+
+$cardID = "W" . $nextNumber;
+$name = ucfirst(str_replace("_", "", $user["username"]));
+$gender = $user["gender"];
+
+$insertSql = "INSERT INTO wishes
+              (userID, categoryID, cardID, wishtext, name, gender, wishdate)
+              VALUES (?, ?, ?, ?, ?, ?, NOW())";
+$insertStmt = mysqli_prepare($conn, $insertSql);
+mysqli_stmt_bind_param(
+    $insertStmt,
+    "ssssss",
+    $userID,
+    $categoryID,
+    $cardID,
+    $wishtext,
+    $name,
+    $gender
+);
+
+if (mysqli_stmt_execute($insertStmt)) {
+    header("Location: home.php");
+    exit();
+} else {
+    echo "Error adding wish: " . mysqli_error($conn);
+    echo '<p><a href="create_wish.php">Back</a></p>';
+}
+
+mysqli_stmt_close($insertStmt);
+mysqli_close($conn);
+?>
