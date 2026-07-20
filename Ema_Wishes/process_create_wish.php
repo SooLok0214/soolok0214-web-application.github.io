@@ -14,12 +14,12 @@ if (!$conn) {
 
 mysqli_set_charset($conn, "utf8mb4");
 
-if (!isset($_SESSION["userID"])) {
+if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
 
-$userID = $_SESSION["userID"];
+$email = $_SESSION["email"];
 $categoryID = $_POST["categoryID"] ?? "";
 $wishtext = trim($_POST["wishtext"] ?? "");
 
@@ -29,9 +29,9 @@ if ($categoryID == "" || $wishtext == "") {
     exit();
 }
 
-$userSql = "SELECT username, gender FROM users WHERE userID = ?";
+$userSql = "SELECT userID, username, gender FROM users WHERE email = ?";
 $userStmt = mysqli_prepare($conn, $userSql);
-mysqli_stmt_bind_param($userStmt, "s", $userID);
+mysqli_stmt_bind_param($userStmt, "s", $email);
 mysqli_stmt_execute($userStmt);
 $userResult = mysqli_stmt_get_result($userStmt);
 $user = mysqli_fetch_assoc($userResult);
@@ -42,6 +42,8 @@ if (!$user) {
     header("Location: index.php");
     exit();
 }
+
+$userID = $user["userID"];
 
 $categorySql = "SELECT categoryID FROM wishcategories WHERE categoryID = ?";
 $categoryStmt = mysqli_prepare($conn, $categorySql);

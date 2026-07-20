@@ -14,15 +14,15 @@ if (!$conn) {
 
 mysqli_set_charset($conn, "utf8mb4");
 
-if (!isset($_SESSION["userID"])) {
+if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
 
-$userID = $_SESSION["userID"];
-$userSql = "SELECT first_name, last_name, gender FROM users WHERE userID = ?";
+$email = $_SESSION["email"];
+$userSql = "SELECT userID, username, gender FROM users WHERE email = ?";
 $userStmt = mysqli_prepare($conn, $userSql);
-mysqli_stmt_bind_param($userStmt, "s", $userID);
+mysqli_stmt_bind_param($userStmt, "s", $email);
 mysqli_stmt_execute($userStmt);
 $userResult = mysqli_stmt_get_result($userStmt);
 $currentUser = mysqli_fetch_assoc($userResult);
@@ -59,26 +59,22 @@ require __DIR__ . "/includes/header.php";
         <tr>
             <td>
                 <?php
-                echo htmlspecialchars(
-                    $currentUser["first_name"] . " " . $currentUser["last_name"]
-                );
+                echo $currentUser["username"];
                 ?>
             </td>
             <td>
-                <?php echo htmlspecialchars($currentUser["gender"]); ?>
+                <?php echo $currentUser["gender"]; ?>
             </td>
             <td>
                 <select name="categoryID" required>
                     <option value="">Please select</option>
 
                     <?php while ($category = mysqli_fetch_assoc($categoryResult)) { ?>
-                        <option value="<?php echo htmlspecialchars($category["categoryID"]); ?>">
+                        <option value="<?php echo $category["categoryID"]; ?>">
                             <?php
-                            echo htmlspecialchars(
-                                $category["categoryicon"] . " " .
+                            echo $category["categoryicon"] . " " .
                                 $category["categoryname"] . " - " .
-                                $category["description"]
-                            );
+                                $category["description"];
                             ?>
                         </option>
                     <?php } ?>

@@ -20,11 +20,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    if (isset($_SESSION["userID"])) {
-        header("Location: home.php");
-        exit();
-    }
-
     session_start();
 
     $query = "SELECT * FROM users WHERE email='" . $_POST["email"] . "' && password='" . $_POST["password"] . "'";
@@ -48,18 +43,8 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <style>
-        * {
-            font-size: 20px;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-    </style>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>

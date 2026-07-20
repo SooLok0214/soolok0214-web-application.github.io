@@ -1,0 +1,60 @@
+:root {
+    --pink-light: #fff8fb;
+    --pink-border: #ffd7e7;
+    --pink-main: #df648f;
+    --pink-dark: #bd456f;
+    --text-main: #38272d;
+    --text-light: #806a72;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+    background: #f2edf0;
+}
+
+body {
+    min-width: 320px;
+    width: min(100%, 428px);
+    min-height: 100vh;
+    margin: 0 auto;
+    overflow-x: hidden;
+    color: var(--text-main);
+    background: var(--pink-light);
+    box-shadow: 0 0 70px rgba(90, 47, 64, 0.18);
+    font-family: "Microsoft JhengHei", Arial, sans-serif;
+    line-height: 1.6;
+}
+
+button,
+input,
+textarea,
+select {
+    color: inherit;
+    font: inherit;
+}
+
+a {
+    color: inherit;
+}
+
+footer {
+    margin-top: 24px;
+    color: var(--text-light);
+    font-size: 13px;
+    text-align: center;
+}
+
+@media (max-width: 428px) {
+    html {
+        background: var(--pink-light);
+    }
+
+    body {
+        width: 100%;
+        box-shadow: none;
+    }
+}
