@@ -50,10 +50,21 @@ $conn = new mysqli($servername, $username, $password, $dbname);
                 <td><?php echo $row['description']; ?></td>
                 <td><?php echo $row['price']; ?></td>
                 <td>
-                    <a href="editbook.php?ISBN=<?php echo urlencode($row['ISBN']); ?>">Edit</a>
+                    <form action="editbook.php" method="POST">
+                        <input type="hidden" name="ISBN" value="<?php echo $row['ISBN']; ?>">
+                        <input type="submit" value="Edit">
+                    </form>
                 </td>
                 <td>
-                    <a href="deletebook.php?ISBN=<?php echo urlencode($row['ISBN']); ?>">Delete</a>
+                    <button><a href="deletebook.php?ISBN=<?php echo ($row['ISBN']); ?>"
+                            onclick="return confirmdelete()">
+                            Delete
+                        </a></button>
+                    <script>
+                        function confirmdelete() {
+                            return confirm('do you want to delete this book(<?php echo $row['ISBN']; ?>)?');
+                        }
+                    </script>
                 </td>
             </tr>
         <?php

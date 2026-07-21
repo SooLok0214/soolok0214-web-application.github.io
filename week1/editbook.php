@@ -1,5 +1,5 @@
 <?php
-$ISBN = $_GET["ISBN"] ?? "";
+$ISBN = $_POST["ISBN"] ?? "";
 
 if ($ISBN === "") {
     header("Location: booklist.php");

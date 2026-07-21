@@ -1,17 +1,17 @@
 ﻿<?php
-    $servername = "localhost";
-    $username = "Myshop";
-    $password = "";
-    $dbname = "Myshop";
+$servername = "localhost";
+$username = "Myshop";
+$password = "";
+$dbname = "Myshop";
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 session_start();
 
-if(!isset($_SESSION["Email"])) {
+if (!isset($_SESSION["Email"])) {
     header("Location: index.php");
 }
 ?>
@@ -186,12 +186,21 @@ if(!isset($_SESSION["Email"])) {
                 <td><?php echo $row['ProductName']; ?></td>
                 <td><?php echo $row['Price']; ?></td>
                 <td>
-                    <form action="editproduct.php" method="post">
+                    <form action="editproduct.php" method="POST">
                         <input type="hidden" name="ProductID" value="<?php echo $row['ProductID']; ?>">
                         <input type="submit" value="Edit">
                     </form>
                 </td>
-                <td><a href="deleteproduct.php? ProductID=<?php echo $row['ProductID']; ?>"><button>Delete</button></a></td>
+                <td>
+                    <button><a href="deleteproduct.php?ProductID=<?php echo ($row['ProductID']); ?>"
+                            onclick="return confirmdelete()">
+                            Delete
+                        </a></button>
+                    <script>
+                        function confirmdelete() {
+                            return confirm('do you want to delete this product(<?php echo $row['ProductID']; ?>)?');
+                        }
+                    </script>
             </tr>
         <?php
         }
@@ -200,4 +209,5 @@ if(!isset($_SESSION["Email"])) {
     </table>
 
 </body>
+
 </html>

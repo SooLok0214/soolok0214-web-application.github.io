@@ -147,6 +147,19 @@
     button a {
         color: #ffffff;
     }
+
+    .warning {
+        width: 94%;
+        max-width: 980px;
+        margin: -14px auto 28px;
+        padding: 12px 14px;
+        border: 1px solid #ff8fbe;
+        border-radius: 5px;
+        background: #ffe3ef;
+        color: #a31655;
+        text-align: center;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
@@ -180,5 +193,10 @@
                 <td><input type="submit" value="add"></td>
             </form>
         </tr>
+    </table>
+
+    <?php if (isset($_GET["error"])) { ?>
+        <div class="warning"><?php echo htmlspecialchars($_GET["error"]); ?></div>
+    <?php } ?>
 </body>
 </html>
