@@ -65,7 +65,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
         <a href="profile.php"><input type="submit" value="Profile"></a>
         <a href="addbook.php"><input type="submit" value="AddBook"></a>
         <a href="student.php"><input type="submit" value="All Students"></a>
-        <a href=""><input type="submit" value="Logout"></a>
+        <a href="logout.php"><input type="submit" value="Logout"></a>
     </table>
 
 </body>
