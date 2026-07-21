@@ -10,19 +10,21 @@
             border-collapse: collapse;
         }
 
-        table, th, td {
+        table,
+        th,
+        td {
             border: 1px solid black;
         }
 
-        th{
+        th {
             width: 200px;
         }
-        td{
-            align: center;
+
+        td {
             align-items: center;
         }
 
-        input{
+        input {
             width: 100%;
             box-sizing: border-box;
         }
@@ -31,29 +33,29 @@
 
 <body>
     <button><a href="profile.php">Back</a></button>
-    
+
     <form action="process_edit_profile.php" method="POST">
-        <table >
-    <tr>
-        <th>Name</th>
-        <th>Password</th>
-        <th>Confirm Password</th>
-        <th>Year Joined</th>
-    </tr>
-    <tr>
-        <td><input type="text" name="name" required></td>
-        <td><input type="password" name="Password" required minlength="6"></td>
-        <td><input type="password" name="ConfirmPassword" required minlength="6"></td>
-        <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="yearjoin" required maxlength="4"></td>
-        <td><input type="submit" value="Submit"></td>
-    </tr>
-</table>
-            <?php
-                if (isset($_GET['error'])){
-                    echo '<div style="color:red; margin: 5px 0;">' . $_GET['error'] . '</div>';
-                }
-            ?>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Password</th>
+                <th>Confirm Password</th>
+                <th>Year Joined</th>
+            </tr>
+            <tr>
+                <td><input type="text" name="name" required></td>
+                <td><input type="password" name="Password" required minlength="6"></td>
+                <td><input type="password" name="ConfirmPassword" required minlength="6"></td>
+                <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="yearjoin" required maxlength="4"></td>
+                <td><input type="submit" value="Submit"></td>
+            </tr>
+        </table>
+        <?php
+        if (isset($_GET['error'])) {
+            echo '<div style="color:red; margin: 5px 0;">' . $_GET['error'] . '</div>';
+        }
+        ?>
     </form>
 </body>
-</html>
 
+</html>

@@ -1,15 +1,15 @@
-  <?php
-  $servername = "localhost";
-  $username = "soolok";
-  $password = "Rabbit5354";
-  $dbname = "soolok";
+<?php
+$servername = "localhost";
+$username = "soolok";
+$password = "Rabbit5354";
+$dbname = "soolok";
 
-  if (isset($_POST["email"]) && isset($_POST["password"])) {
+if (isset($_POST["email"]) && isset($_POST["password"])) {
 
     if (empty($_POST["email"])) {
-      echo ("Please fill in Email.");
+        echo ("Please fill in Email.");
     } else if (empty($_POST["password"])) {
-      echo ("Please fill in Password.");
+        echo ("Please fill in Password.");
     }
 
     // Create connection
@@ -17,7 +17,7 @@
 
     // Check connection
     if ($conn->connect_error) {
-      die("Connection failed: " . $conn->connect_error);
+        die("Connection failed: " . $conn->connect_error);
     }
 
     session_start();
@@ -27,49 +27,49 @@
     $numrow = mysqli_num_rows($result);
 
     if ($numrow > 0) {
-      $_SESSION["email"] = $_POST["email"];
-      header("Location: booklist.php");
-      exit();
+        $_SESSION["email"] = $_POST["email"];
+        header("Location: booklist.php");
+        exit();
     } else {
-      echo "No Found User";
+        echo "No Found User";
     }
-  }
-  ?>
+}
+?>
 
 
 
-  <!DOCTYPE html>
-  <html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-      * {
-        font-size: 20px;
-      }
+        * {
+            font-size: 20px;
+        }
 
-      body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
     </style>
-  </head>
+</head>
 
-  <body>
+<body>
     <div id="email">
-      <form target="_self" method="POST">
-        <h2>Enter Your Email:</h2>
-        <input type="text" name="email">
-        <br />
-        <h2>Password:</h2>
-        <input type="password" name="password">
-        <input type="submit">
-      </form>
+        <form target="_self" method="POST">
+            <h2>Enter Your Email:</h2>
+            <input type="text" name="email">
+            <br />
+            <h2>Password:</h2>
+            <input type="password" name="password">
+            <input type="submit">
+        </form>
     </div>
-  </body>
+</body>
 
-  </html>
+</html>

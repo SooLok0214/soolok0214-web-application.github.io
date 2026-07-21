@@ -1,21 +1,10 @@
 <?php
-    $servername = "localhost";
-    $username = "soolok";
-    $password = "Rabbit5354";
-    $dbname = "soolok";
+$servername = "localhost";
+$username = "soolok";
+$password = "Rabbit5354";
+$dbname = "soolok";
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-  die("Connection failed: " . $conn->connect_error);
-}
-
-session_start();
-
-if(!isset($_SESSION["email"])) {
-    header("Location: index.php");
-}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +19,9 @@ if(!isset($_SESSION["email"])) {
         border-collapse: collapse;
     }
 
-    table, th, td {
+    table,
+    th,
+    td {
         border: 1px solid black;
     }
 </style>
@@ -53,18 +44,18 @@ if(!isset($_SESSION["email"])) {
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
             <tr>
-                <td><?php echo $row['ISBN']; ?></td>
-                <td><?php echo $row['title']; ?></td>
-                <td><?php echo $row['author']; ?></td>
-                <td><?php echo $row['description']; ?></td>
-                <td><?php echo $row['price']; ?></td>
-                <td>
-                    <form action="editbook.php" method="post">
+                <form action="editbook.php" method="POST">
+                    <td><?php echo $row['ISBN']; ?></td>
+                    <td><?php echo $row['title']; ?></td>
+                    <td><?php echo $row['author']; ?></td>
+                    <td><?php echo $row['description']; ?></td>
+                    <td><?php echo $row['price']; ?></td>
+                    <td>
                         <input type="hidden" name="ISBN" value="<?php echo $row['ISBN']; ?>">
                         <input type="submit" value="Edit">
-                    </form>
-                </td>
-                <td><a href="deletebook.php? ISBN=<?php echo $row['ISBN']; ?>"><button>Delete</button></a></td>
+                    </td>
+                    <td><button>Delete</button></td>
+                </form>
             </tr>
         <?php
         }
@@ -73,9 +64,10 @@ if(!isset($_SESSION["email"])) {
 
         <a href="profile.php"><input type="submit" value="Profile"></a>
         <a href="addbook.php"><input type="submit" value="AddBook"></a>
-        <!-- <a href="student.php"><input type="submit" value="All Students"></a> -->
+        <a href="student.php"><input type="submit" value="All Students"></a>
         <a href=""><input type="submit" value="Logout"></a>
     </table>
 
 </body>
+
 </html>
