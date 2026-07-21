@@ -44,18 +44,17 @@ $conn = new mysqli($servername, $username, $password, $dbname);
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
             <tr>
-                <form action="editbook.php" method="POST">
-                    <td><?php echo $row['ISBN']; ?></td>
-                    <td><?php echo $row['title']; ?></td>
-                    <td><?php echo $row['author']; ?></td>
-                    <td><?php echo $row['description']; ?></td>
-                    <td><?php echo $row['price']; ?></td>
-                    <td>
-                        <input type="hidden" name="ISBN" value="<?php echo $row['ISBN']; ?>">
-                        <input type="submit" value="Edit">
-                    </td>
-                    <td><button>Delete</button></td>
-                </form>
+                <td><?php echo $row['ISBN']; ?></td>
+                <td><?php echo $row['title']; ?></td>
+                <td><?php echo $row['author']; ?></td>
+                <td><?php echo $row['description']; ?></td>
+                <td><?php echo $row['price']; ?></td>
+                <td>
+                    <a href="editbook.php?ISBN=<?php echo urlencode($row['ISBN']); ?>">Edit</a>
+                </td>
+                <td>
+                    <a href="deletebook.php?ISBN=<?php echo urlencode($row['ISBN']); ?>">Delete</a>
+                </td>
             </tr>
         <?php
         }

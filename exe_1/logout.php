@@ -1,12 +1,8 @@
 ﻿<?php
-    $servername = "localhost";
-    $username = "Myshop";
-    $password = "";
-    $dbname = "Myshop";
+session_start();
 
-    // Create connection
-    $conn = mysqli_connect($servername, $username, $password, $dbname);
-    if (!$conn) {
-        die('Connection failed: ' . mysqli_connect_error());
-    }
-    ?>
+session_unset();
+session_destroy();
+
+header("Location: index.php");
+exit();
