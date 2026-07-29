@@ -1,49 +1,35 @@
 <?php
 session_start();
-$message = "";
+$message = isset($_GET["accountDeleted"]) ? "Account deleted successfully." : "";
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = $_POST["email"] ?? "";
+    $email = trim($_POST["email"] ?? "");
     $loginPassword = $_POST["password"] ?? "";
     if ($email == "") {
         $message = "Please fill in Email.";
     } elseif ($loginPassword == "") {
         $message = "Please fill in Password.";
     } else {
-        $conn = new mysqli(
-            "localhost",
-            "Ema_Wishes",
-            "123123",
-            "ema_wishes"
-        );
+        $conn = new mysqli("localhost", "Ema_Wishes", "123123", "ema_wishes");
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
         $conn->set_charset("utf8mb4");
-        $email = $conn->real_escape_string($email);
-        $loginPassword = $conn->real_escape_string($loginPassword);
-        $query = "
-            SELECT *
-            FROM users
-            WHERE email = '$email'
-            AND password = '$loginPassword'
-        ";
-        $result = $conn->query($query)
-            or die("Couldn't execute query");
+        $safeEmail = $conn->real_escape_string($email);
+        $safePassword = $conn->real_escape_string($loginPassword);
+        $result = $conn->query("SELECT userID FROM users WHERE email = '$safeEmail' AND password = '$safePassword'") or die("Couldn't execute query");
         if ($result->num_rows > 0) {
             $_SESSION["email"] = $email;
             $conn->close();
             header("Location: home.php");
             exit();
-        } else {
-            $message = "No Found User";
         }
+        $message = "No Found User";
         $conn->close();
     }
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta
@@ -57,7 +43,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         rel="stylesheet"
         href="css/index.css?v=20260730-4">
 </head>
-
 <body>
     <header class="site-header">
         <a class="site-brand" href="index.php">

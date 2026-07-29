@@ -1,33 +1,16 @@
 <?php
 session_start();
-
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
-
-$conn = new mysqli(
-    "localhost",
-    "Ema_Wishes",
-    "123123",
-    "ema_wishes"
-);
+$conn = new mysqli("localhost", "Ema_Wishes", "123123", "ema_wishes");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
 $conn->set_charset("utf8mb4");
-
 $email = $conn->real_escape_string($_SESSION["email"]);
-
-$userSql = "
-    SELECT *
-    FROM users
-    WHERE email = '$email'
-";
-$userResult = $conn->query($userSql);
-$currentUser = $userResult->fetch_assoc();
-
+$currentUser = $conn->query("SELECT * FROM users WHERE email = '$email'")->fetch_assoc();
 if (!$currentUser) {
     session_destroy();
     header("Location: index.php");
@@ -35,16 +18,13 @@ if (!$currentUser) {
 }
 $userID = $conn->real_escape_string($currentUser["userID"]);
 $message = "";
-
 if (isset($_GET["deleted"])) {
     $message = "Wish deleted successfully.";
 } elseif (isset($_GET["deleteError"])) {
     $message = "Unable to delete this wish.";
 }
 $avatarFileName = $currentUser["profileimage"] ?? "";
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
     $usernameValue = trim($_POST["username"] ?? "");
     $emailValue = trim($_POST["email"] ?? "");
     $passwordValue = $_POST["password"] ?? "";
@@ -53,16 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $genderValue = $_POST["gender"] ?? "";
     $pendingAvatar = null;
     $uploadedAvatarPath = "";
-
-    if (
-        $usernameValue == "" ||
-        $emailValue == "" ||
-        $phoneValue == "" ||
-        $genderValue == ""
-    ) {
+    if ($usernameValue == "" || $emailValue == "" || $phoneValue == "" || $genderValue == "") {
         $message = "Please fill in all fields.";
     } elseif (!filter_var($emailValue, FILTER_VALIDATE_EMAIL)) {
         $message = "Email format is incorrect.";
+    } elseif (!preg_match("/^\+?[0-9]+$/", $phoneValue)) {
+        $message = "Phone Number can only contain numbers and an optional + at the beginning.";
     } elseif ($passwordValue != "" && strlen($passwordValue) < 6) {
         $message = "New Password must contain at least 6 characters.";
     } elseif ($passwordValue != $confirmPasswordValue) {
@@ -70,41 +46,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } elseif ($genderValue != "male" && $genderValue != "female") {
         $message = "Please select a valid gender.";
     }
-
     if ($message == "") {
         $safeUsername = $conn->real_escape_string($usernameValue);
         $safeEmail = $conn->real_escape_string($emailValue);
-        $checkSql = "
-            SELECT userID
-            FROM users
-            WHERE (
-                username = '$safeUsername'
-                OR email = '$safeEmail'
-            )
-            AND userID != '$userID'
-        ";
-        $checkResult = $conn->query($checkSql);
-        $duplicateUser = $checkResult->fetch_assoc();
-
+        $duplicateUser = $conn->query("SELECT userID FROM users WHERE (username = '$safeUsername' OR email = '$safeEmail') AND userID != '$userID'")->fetch_assoc();
         if ($duplicateUser) {
             $message = "Username or Email already exists.";
         }
     }
-
-    if (
-        $message == "" &&
-        isset($_FILES["profileimage"]) &&
-        $_FILES["profileimage"]["error"] != UPLOAD_ERR_NO_FILE
-    ) {
+    if ($message == "" && isset($_FILES["profileimage"]) && $_FILES["profileimage"]["error"] != UPLOAD_ERR_NO_FILE) {
         if ($_FILES["profileimage"]["error"] != UPLOAD_ERR_OK) {
             $message = "Profile image upload failed. Please select the image again.";
         } elseif ($_FILES["profileimage"]["size"] > 2 * 1024 * 1024) {
             $message = "Profile image must not exceed 2MB.";
         } else {
             $fileInfo = new finfo(FILEINFO_MIME_TYPE);
-            $mimeType = $fileInfo->file(
-                $_FILES["profileimage"]["tmp_name"]
-            );
+            $mimeType = $fileInfo->file($_FILES["profileimage"]["tmp_name"]);
             $allowedImageTypes = [
                 "image/jpeg" => "jpg",
                 "image/png" => "png",
@@ -120,35 +77,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
     if ($message == "" && $pendingAvatar) {
-
         $uploadDirectory = __DIR__ . "/uploads";
-
-        if (
-            !is_dir($uploadDirectory) &&
-            !mkdir($uploadDirectory, 0755, true)
-        ) {
+        if (!is_dir($uploadDirectory) && !mkdir($uploadDirectory, 0755, true)) {
             $message = "Unable to create the profile image folder.";
         } else {
-            $safeUserID = preg_replace(
-                "/[^A-Za-z0-9]/",
-                "",
-                $userID
-            );
-            $newAvatarFileName =
-                "avatar_" .
-                $safeUserID . "_" .
-                bin2hex(random_bytes(8)) . "." .
-                $pendingAvatar["extension"];
-            $uploadedAvatarPath =
-                $uploadDirectory . "/" . $newAvatarFileName;
-            if (
-                !move_uploaded_file(
-                    $pendingAvatar["temporaryPath"],
-                    $uploadedAvatarPath
-                )
-            ) {
+            $safeUserID = preg_replace("/[^A-Za-z0-9]/", "", $userID);
+            $newAvatarFileName = "avatar_" . $safeUserID . "_" . bin2hex(random_bytes(8)) . "." . $pendingAvatar["extension"];
+            $uploadedAvatarPath = $uploadDirectory . "/" . $newAvatarFileName;
+            if (!move_uploaded_file($pendingAvatar["temporaryPath"], $uploadedAvatarPath)) {
                 $message = "Unable to save the profile image.";
                 $uploadedAvatarPath = "";
             } else {
@@ -156,178 +93,69 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
     }
-
     if ($message == "") {
         $safeUsername = $conn->real_escape_string($usernameValue);
         $safeEmail = $conn->real_escape_string($emailValue);
         $safePhone = $conn->real_escape_string($phoneValue);
         $safeGender = $conn->real_escape_string($genderValue);
         $safeAvatar = $conn->real_escape_string($avatarFileName);
-        if ($passwordValue == "") {
-            $updateSql = "
-                UPDATE users
-                SET
-                    username = '$safeUsername',
-                    email = '$safeEmail',
-                    phonenumber = '$safePhone',
-                    gender = '$safeGender',
-                    profileimage = '$safeAvatar'
-                WHERE userID = '$userID'
-            ";
-        } else {
+        $passwordSql = "";
+        if ($passwordValue != "") {
             $safePassword = $conn->real_escape_string($passwordValue);
-            $updateSql = "
-                UPDATE users
-                SET
-                    username = '$safeUsername',
-                    email = '$safeEmail',
-                    password = '$safePassword',
-                    phonenumber = '$safePhone',
-                    gender = '$safeGender',
-                    profileimage = '$safeAvatar'
-                WHERE userID = '$userID'
-            ";
+            $passwordSql = ", password = '$safePassword'";
         }
-
+        $updateSql = "UPDATE users SET username = '$safeUsername', email = '$safeEmail', phonenumber = '$safePhone', gender = '$safeGender', profileimage = '$safeAvatar'$passwordSql WHERE userID = '$userID'";
         if ($conn->query($updateSql)) {
-            $wishName = ucfirst(
-                str_replace("_", "", $usernameValue)
-            );
+            $wishName = ucfirst(str_replace("_", "", $usernameValue));
             $safeWishName = $conn->real_escape_string($wishName);
-            $wishSql = "
-                UPDATE wishes
-                SET
-                    name = '$safeWishName',
-                    gender = '$safeGender'
-                WHERE userID = '$userID'
-            ";
-            $conn->query($wishSql);
-
+            $conn->query("UPDATE wishes SET name = '$safeWishName', gender = '$safeGender' WHERE userID = '$userID'");
             $_SESSION["email"] = $emailValue;
-
             $message = "Profile updated successfully.";
-
-            $oldAvatarFileName =
-                $currentUser["profileimage"] ?? "";
-
-            if (
-                $avatarFileName != $oldAvatarFileName &&
-                $oldAvatarFileName != "" &&
-                basename($oldAvatarFileName) == $oldAvatarFileName
-            ) {
-                $oldAvatarPath =
-                    __DIR__ . "/uploads/" . $oldAvatarFileName;
-
+            $oldAvatarFileName = $currentUser["profileimage"] ?? "";
+            if ($avatarFileName != $oldAvatarFileName && $oldAvatarFileName != "" && basename($oldAvatarFileName) == $oldAvatarFileName) {
+                $oldAvatarPath = __DIR__ . "/uploads/" . $oldAvatarFileName;
                 if (is_file($oldAvatarPath)) {
                     unlink($oldAvatarPath);
                 }
             }
-
-            $refreshSql = "
-                SELECT *
-                FROM users
-                WHERE userID = '$userID'
-            ";
-            $refreshResult = $conn->query($refreshSql);
-            $currentUser = $refreshResult->fetch_assoc();
+            $currentUser = $conn->query("SELECT * FROM users WHERE userID = '$userID'")->fetch_assoc();
         } else {
-            $message =
-                "Unable to update profile: " .
-                $conn->error;
-
-            if (
-                $uploadedAvatarPath != "" &&
-                is_file($uploadedAvatarPath)
-            ) {
+            $message = "Unable to update profile: " . $conn->error;
+            if ($uploadedAvatarPath != "" && is_file($uploadedAvatarPath)) {
                 unlink($uploadedAvatarPath);
             }
         }
     }
 }
-
 $avatarSource = "images/sakura.svg";
 $savedAvatar = $currentUser["profileimage"] ?? "";
-if (
-    $savedAvatar != "" &&
-    basename($savedAvatar) == $savedAvatar &&
-    is_file(__DIR__ . "/uploads/" . $savedAvatar)
-) {
-    $avatarSource =
-        "uploads/" . rawurlencode($savedAvatar);
+if ($savedAvatar != "" && basename($savedAvatar) == $savedAvatar && is_file(__DIR__ . "/uploads/" . $savedAvatar)) {
+    $avatarSource = "uploads/" . rawurlencode($savedAvatar);
 }
-
-$statsSql = "
-    SELECT
-        COUNT(cardID) AS totalWishes,
-        COUNT(DISTINCT categoryID) AS totalThemes,
-        MIN(wishdate) AS firstWishDate
-    FROM wishes
-    WHERE userID = '$userID'
-";
-$statsResult = $conn->query($statsSql);
-$wishStats = $statsResult->fetch_assoc();
-
-$historySql = "
-    SELECT
-        w.cardID,
-        w.wishtext,
-        w.wishdate,
-        c.categoryicon,
-        c.categoryname
-    FROM wishes w
-    LEFT JOIN wishcategories c
-    ON w.categoryID = c.categoryID
-    WHERE w.userID = '$userID'
-    ORDER BY
-        w.wishdate DESC,
-        w.cardID DESC
-";
-
+$statsSql = "SELECT COUNT(cardID) AS totalWishes, COUNT(DISTINCT categoryID) AS totalThemes, MIN(wishdate) AS firstWishDate FROM wishes WHERE userID = '$userID'";
+$wishStats = $conn->query($statsSql)->fetch_assoc();
+$historySql = "SELECT w.cardID, w.wishtext, w.wishdate, c.categoryicon, c.categoryname FROM wishes w LEFT JOIN wishcategories c ON w.categoryID = c.categoryID WHERE w.userID = '$userID' ORDER BY w.wishdate DESC, w.cardID DESC";
 $historyResult = $conn->query($historySql);
 $wishHistory = [];
 while ($wish = $historyResult->fetch_assoc()) {
     $wishHistory[] = $wish;
 }
-
-$categorySql = "
-    SELECT
-        c.categoryID,
-        c.categoryicon,
-        c.categoryname,
-        COUNT(w.cardID) AS total
-    FROM wishcategories c
-    LEFT JOIN wishes w
-    ON c.categoryID = w.categoryID
-    AND w.userID = '$userID'
-    GROUP BY
-        c.categoryID,
-        c.categoryicon,
-        c.categoryname
-    ORDER BY c.categoryID
-";
+$categorySql = "SELECT c.categoryID, c.categoryicon, c.categoryname, COUNT(w.cardID) AS total FROM wishcategories c LEFT JOIN wishes w ON c.categoryID = w.categoryID AND w.userID = '$userID' GROUP BY c.categoryID, c.categoryicon, c.categoryname ORDER BY c.categoryID";
 $categoryResult = $conn->query($categorySql);
 $categoryRecords = [];
 while ($category = $categoryResult->fetch_assoc()) {
     $categoryRecords[] = $category;
 }
-
-$joinedDate = date(
-    "F Y",
-    strtotime($currentUser["created_time"])
-);
+$joinedDate = date("F Y", strtotime($currentUser["created_time"]));
 if ($wishStats["firstWishDate"]) {
-    $firstWishDate = date(
-        "M d, Y",
-        strtotime($wishStats["firstWishDate"])
-    );
+    $firstWishDate = date("M d, Y", strtotime($wishStats["firstWishDate"]));
 } else {
     $firstWishDate = "—";
 }
 $pageTitle = "Profile";
-$pageCss = "css/profile.css?v=20260730-20";
+$pageCss = "css/profile.css?v=20260730-23";
 require "includes/header.php";
 ?>
-
 <section class="profile-page">
     <section class="profile-overview">
         <div class="profile-avatar">
@@ -379,15 +207,11 @@ require "includes/header.php";
             </article>
         </div>
     </section>
-
     <?php if ($message != "") { ?>
-
         <p class="profile-message">
             <?php echo $message; ?>
         </p>
-
     <?php } ?>
-
     <section class="profile-history">
         <div class="profile-section-heading">
             <p>WISH HISTORY</p>
@@ -402,7 +226,6 @@ require "includes/header.php";
                 recorded at the shrine.
             </span>
         </div>
-
         <?php if (count($wishHistory) == 0) { ?>
             <div class="profile-empty-history">
                 <strong>EMA</strong>
@@ -415,7 +238,6 @@ require "includes/header.php";
                     Make Your First Wish →
                 </a>
             </div>
-
         <?php } else { ?>
             <div class="profile-wish-list">
                 <details class="profile-wish-folder">
@@ -478,8 +300,6 @@ require "includes/header.php";
             </div>
         <?php } ?>
     </section>
-
-
     <section class="category-records">
         <h3>Wish Theme Records</h3>
         <div>
@@ -497,7 +317,6 @@ require "includes/header.php";
                         wishes
                     </strong>
                 </p>
-
             <?php } ?>
         </div>
     </section>
@@ -506,8 +325,15 @@ require "includes/header.php";
         href="update_profile.php">
         Update Profile
     </a>
+    <form
+        class="delete-account-form"
+        action="delete_account.php"
+        method="POST"
+        onsubmit="return confirm('Delete your account permanently? This will also delete all of your wishes and cannot be undone.');">
+        <p>Delete your account and all wishes permanently.</p>
+        <button type="submit">Delete Account</button>
+    </form>
 </section>
-
 <?php
 $conn->close();
 require "includes/footer.php";

@@ -4,24 +4,13 @@ if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
-$conn = new mysqli(
-    "localhost",
-    "Ema_Wishes",
-    "123123",
-    "ema_wishes"
-);
+$conn = new mysqli("localhost", "Ema_Wishes", "123123", "ema_wishes");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $conn->set_charset("utf8mb4");
 $email = $conn->real_escape_string($_SESSION["email"]);
-$userSql = "
-    SELECT *
-    FROM users
-    WHERE email = '$email'
-";
-$userResult = $conn->query($userSql);
-$currentUser = $userResult->fetch_assoc();
+$currentUser = $conn->query("SELECT * FROM users WHERE email = '$email'")->fetch_assoc();
 if (!$currentUser) {
     session_destroy();
     header("Location: index.php");
@@ -29,15 +18,11 @@ if (!$currentUser) {
 }
 $avatarSource = "images/sakura.svg";
 $savedAvatar = $currentUser["profileimage"] ?? "";
-if (
-    $savedAvatar != "" &&
-    basename($savedAvatar) == $savedAvatar &&
-    is_file(__DIR__ . "/uploads/" . $savedAvatar)
-) {
+if ($savedAvatar != "" && basename($savedAvatar) == $savedAvatar && is_file(__DIR__ . "/uploads/" . $savedAvatar)) {
     $avatarSource = "uploads/" . rawurlencode($savedAvatar);
 }
 $pageTitle = "Update Profile";
-$pageCss = "css/profile.css?v=20260730-20";
+$pageCss = "css/profile.css?v=20260730-23";
 require "includes/header.php";
 ?>
 <section class="profile-page update-profile-page">
@@ -112,8 +97,12 @@ require "includes/header.php";
             <label>
                 <span>Phone Number</span>
                 <input
-                    type="text"
+                    type="tel"
                     name="phonenumber"
+                    inputmode="tel"
+                    pattern="\+?[0-9]+"
+                    title="Use numbers only, with an optional + at the beginning."
+                    oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '');"
                     value="<?php echo htmlspecialchars($currentUser["phonenumber"]); ?>"
                     required>
             </label>

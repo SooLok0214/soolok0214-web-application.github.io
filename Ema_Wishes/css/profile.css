@@ -435,6 +435,39 @@
 .profile-form .profile-button {
     margin-top: 5px;
 }
+.delete-account-form {
+    display: grid;
+    width: calc(100% - 28px);
+    margin: 18px 14px 0;
+    padding: 18px 20px;
+    gap: 12px;
+    border: 1px solid var(--pink-200);
+    border-radius: 18px;
+    background: var(--pink-50);
+    box-sizing: border-box;
+    text-align: center;
+}
+.delete-account-form p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+}
+.delete-account-form button {
+    width: 100%;
+    min-height: 47px;
+    border: 1px solid var(--red-700);
+    border-radius: 24px;
+    color: var(--red-700);
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.delete-account-form button:hover {
+    color: var(--paper);
+    background: var(--red-700);
+}
 .category-records {
     padding: 25px 20px 22px;
 }

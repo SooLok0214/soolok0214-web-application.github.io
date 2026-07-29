@@ -4,54 +4,27 @@ if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
-$conn = new mysqli(
-    "localhost",
-    "Ema_Wishes",
-    "123123",
-    "ema_wishes"
-);
+$conn = new mysqli("localhost", "Ema_Wishes", "123123", "ema_wishes");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 $conn->set_charset("utf8mb4");
 $email = $conn->real_escape_string($_SESSION["email"]);
-$userSql = "
-    SELECT userID, username
-    FROM users
-    WHERE email = '$email'
-";
-$userResult = $conn->query($userSql);
-$currentUser = $userResult->fetch_assoc();
+$currentUser = $conn->query("SELECT userID, username FROM users WHERE email = '$email'")->fetch_assoc();
 if (!$currentUser) {
     session_destroy();
     header("Location: index.php");
     exit();
 }
-$categorySql = "
-    SELECT
-        c.categoryID,
-        c.categoryname,
-        c.categoryicon,
-        COUNT(w.cardID) AS total
-    FROM wishcategories c
-    LEFT JOIN wishes w
-    ON w.categoryID = c.categoryID
-    GROUP BY
-        c.categoryID,
-        c.categoryname,
-        c.categoryicon
-    ORDER BY c.categoryID
-";
-$categoryResult = $conn->query($categorySql)
-    or die("Couldn't execute category query");
+$categorySql = "SELECT c.categoryID, c.categoryname, c.categoryicon, COUNT(w.cardID) AS total FROM wishcategories c LEFT JOIN wishes w ON w.categoryID = c.categoryID GROUP BY c.categoryID, c.categoryname, c.categoryicon ORDER BY c.categoryID";
+$categoryResult = $conn->query($categorySql) or die("Couldn't execute category query");
 $categories = [];
 $allWishesTotal = 0;
 while ($category = $categoryResult->fetch_assoc()) {
     $categories[] = $category;
     $allWishesTotal += $category["total"];
 }
-$selectedCategoryID = $_GET["categoryID"] ?? "";
-$selectedCategoryID = $conn->real_escape_string($selectedCategoryID);
+$selectedCategoryID = $conn->real_escape_string($_GET["categoryID"] ?? "");
 $selectedCategory = null;
 foreach ($categories as $category) {
     if ($category["categoryID"] == $selectedCategoryID) {
@@ -62,60 +35,19 @@ foreach ($categories as $category) {
 if (!$selectedCategory) {
     $selectedCategoryID = "";
 }
-$wishSql = "
-    SELECT
-        w.cardID,
-        w.wishtext,
-        w.hideUser,
-        w.wishdate,
-        CASE
-            WHEN w.hideUser = 1
-            THEN 'Anonymous'
-            ELSE w.name
-        END AS displayname,
-        CASE
-            WHEN w.hideUser = 1
-            THEN 'Gender not disclosed'
-            ELSE CONCAT(
-                UPPER(LEFT(w.gender, 1)),
-                SUBSTRING(w.gender, 2)
-            )
-        END AS displaygender,
-        c.categoryID,
-        c.categoryname,
-        c.categoryicon
-    FROM wishes w
-    LEFT JOIN wishcategories c
-    ON w.categoryID = c.categoryID
-";
+$wishSql = "SELECT w.cardID, w.wishtext, w.hideUser, w.wishdate, CASE WHEN w.hideUser = 1 THEN 'Anonymous' ELSE w.name END AS displayname, CASE WHEN w.hideUser = 1 THEN 'Gender not disclosed' ELSE CONCAT(UPPER(LEFT(w.gender, 1)), SUBSTRING(w.gender, 2)) END AS displaygender, c.categoryID, c.categoryname, c.categoryicon FROM wishes w LEFT JOIN wishcategories c ON w.categoryID = c.categoryID";
 if ($selectedCategoryID != "") {
-    $wishSql .= "
-        WHERE w.categoryID = '$selectedCategoryID'
-    ";
+    $wishSql .= " WHERE w.categoryID = '$selectedCategoryID'";
 }
-$wishSql .= "
-    ORDER BY w.wishdate DESC, w.cardID DESC
-";
-$wishResult = $conn->query($wishSql)
-    or die("Couldn't execute wish query");
+$wishSql .= " ORDER BY w.wishdate DESC, w.cardID DESC";
+$wishResult = $conn->query($wishSql) or die("Couldn't execute wish query");
 $wishes = [];
 while ($wish = $wishResult->fetch_assoc()) {
     $wishes[] = $wish;
 }
 $totalWishes = count($wishes);
-$wishRows = [];
-if ($totalWishes > 0) {
-    $itemsPerRow = ceil($totalWishes / 2);
-    $wishRows = array_chunk($wishes, $itemsPerRow);
-}
-if ($selectedCategory) {
-    $selectedThemeLabel =
-        $selectedCategory["categoryname"] .
-        " (" . $totalWishes . " wishes)";
-} else {
-    $selectedThemeLabel =
-        "All Themes (" . $allWishesTotal . " wishes)";
-}
+$wishRows = $totalWishes > 0 ? array_chunk($wishes, ceil($totalWishes / 2)) : [];
+$selectedThemeLabel = $selectedCategory ? $selectedCategory["categoryname"] . " (" . $totalWishes . " wishes)" : "All Themes (" . $allWishesTotal . " wishes)";
 $pageTitle = "Wish Wall";
 $pageCss = "css/home.css?v=20260730-10";
 require "includes/header.php";

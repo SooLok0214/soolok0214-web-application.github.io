@@ -1,10 +1,8 @@
 <?php
 $error = $_GET["error"] ?? "";
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta
@@ -18,7 +16,6 @@ $error = $_GET["error"] ?? "";
         rel="stylesheet"
         href="css/register.css?v=20260730-4">
 </head>
-
 <body>
     <header class="site-header">
         <a class="site-brand" href="index.php">
@@ -81,8 +78,12 @@ $error = $_GET["error"] ?? "";
                 <label>
                     <span>Phone Number</span>
                     <input
-                        type="text"
+                        type="tel"
                         name="phonenumber"
+                        inputmode="tel"
+                        pattern="\+?[0-9]+"
+                        title="Use numbers only, with an optional + at the beginning."
+                        oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '');"
                         autocomplete="tel"
                         placeholder="+60">
                 </label>
@@ -118,5 +119,4 @@ $error = $_GET["error"] ?? "";
     </main>
     <?php require "includes/footer.php"; ?>
 </body>
-
 </html>

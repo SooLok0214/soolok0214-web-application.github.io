@@ -1,47 +1,27 @@
 <?php
 session_start();
-
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
     exit();
 }
-
-$conn = mysqli_connect(
-    "localhost",
-    "Ema_Wishes",
-    "123123",
-    "ema_wishes"
-);
-
+$conn = mysqli_connect("localhost", "Ema_Wishes", "123123", "ema_wishes");
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
-
 mysqli_set_charset($conn, "utf8mb4");
 $email = mysqli_real_escape_string($conn, $_SESSION["email"]);
-$userSql = "
-    SELECT userID, username, gender
-    FROM users
-    WHERE email = '$email'
-";
-$userResult = mysqli_query($conn, $userSql);
+$userResult = mysqli_query($conn, "SELECT userID, username, gender FROM users WHERE email = '$email'");
 $currentUser = mysqli_fetch_assoc($userResult);
 if (!$currentUser) {
     session_destroy();
     header("Location: index.php");
     exit();
 }
-$categorySql = "
-    SELECT categoryID, categoryname, categoryicon, description
-    FROM wishcategories
-    ORDER BY categoryID
-";
-$categoryResult = mysqli_query($conn, $categorySql);
+$categoryResult = mysqli_query($conn, "SELECT categoryID, categoryname, categoryicon, description FROM wishcategories ORDER BY categoryID");
 $pageTitle = "Add Wish";
 $pageCss = "css/create_wish.css?v=20260730-5";
 require "includes/header.php";
 ?>
-
 <section class="create-page">
     <div class="create-intro">
         <p>WRITE YOUR EMA</p>
@@ -91,7 +71,6 @@ require "includes/header.php";
                             checked>
                         <span>
                             <strong>Post anonymously</strong>
-
                             <small>
                                 Your name and gender will not appear on the
                                 wish wall.
@@ -143,7 +122,6 @@ require "includes/header.php";
         <fieldset class="wish-text-field">
             <legend class="form-step-heading">
                 <span class="form-step-number">03</span>
-
                 <span class="form-step-heading-copy">
                     <strong>Write your wish</strong>
                     <small>
