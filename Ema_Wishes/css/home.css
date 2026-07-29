@@ -1,0 +1,376 @@
+body {
+    background: var(--pink-50);
+}
+
+body > header {
+    padding: 20px 18px 16px;
+    border-top: 7px solid var(--ink);
+    border-bottom: 1px solid var(--pink-border);
+    background: var(--paper);
+}
+
+body > header h1 {
+    margin: 0 0 10px;
+    color: var(--ink);
+    font-size: 24px;
+    text-align: center;
+}
+
+body > header nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    justify-content: center;
+    color: var(--pink-dark);
+    font-size: 12px;
+}
+
+body > header nav a {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+body > header hr {
+    display: none;
+}
+
+main {
+    width: 100%;
+}
+
+.home-hero {
+    margin: 18px 14px;
+    padding: 25px 20px;
+    border: 1px solid var(--pink-border);
+    border-radius: 20px;
+    background: var(--paper);
+    box-shadow: 0 5px 14px var(--pink-border);
+    text-align: center;
+}
+
+.home-kicker {
+    margin: 0 0 8px;
+    color: var(--pink-dark);
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 0.2em;
+}
+
+.home-hero h2 {
+    margin: 0;
+    color: var(--ink);
+    font-size: 25px;
+}
+
+.home-hero > p:not(.home-kicker) {
+    margin: 12px 0 20px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.add-wish-button {
+    display: inline-block;
+    padding: 11px 20px;
+    border-radius: 999px;
+    color: var(--pink-50);
+    background: var(--pink-main);
+    font-size: 13px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.wish-wall {
+    padding: 8px 14px 26px;
+}
+
+.wall-heading {
+    display: flex;
+    margin-bottom: 14px;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.wall-heading span {
+    color: var(--pink-dark);
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 0.16em;
+}
+
+.wall-heading h2 {
+    margin: 2px 0 0;
+    color: var(--ink);
+    font-size: 25px;
+}
+
+.wall-heading p {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.home-theme-select {
+    position: relative;
+    z-index: 8;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 12px;
+    margin-bottom: 22px;
+    padding: 8px;
+    align-items: center;
+    border: 1px solid var(--pink-border);
+    border-radius: 17px;
+    background: var(--pink-100);
+}
+
+.theme-filter-label {
+    padding-left: 5px;
+    color: var(--pink-dark);
+    font-family: var(--serif);
+    font-size: 12px;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.theme-dropdown {
+    position: relative;
+}
+
+.theme-dropdown summary {
+    position: relative;
+    display: flex;
+    min-height: 44px;
+    padding: 0 42px 0 14px;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--pink-300);
+    border-radius: 13px;
+    color: var(--pink-dark);
+    background: var(--paper);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    list-style: none;
+}
+
+.theme-dropdown summary::-webkit-details-marker {
+    display: none;
+}
+
+.theme-dropdown summary:focus {
+    outline: none;
+    border-color: var(--pink-main);
+    box-shadow: 0 0 0 3px var(--pink-100);
+}
+
+.theme-dropdown summary::after {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    width: 8px;
+    height: 8px;
+    transform: translateY(-65%) rotate(45deg);
+    border-right: 2px solid var(--pink-main);
+    border-bottom: 2px solid var(--pink-main);
+    color: var(--pink-main);
+    content: "";
+}
+
+.theme-dropdown[open] summary::after {
+    transform: translateY(-35%) rotate(225deg);
+}
+
+.theme-dropdown-menu {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 6px);
+    right: 0;
+    left: 0;
+    overflow: hidden;
+    padding: 6px;
+    border: 1px solid var(--pink-border);
+    border-radius: 14px;
+    background: var(--paper);
+    box-shadow: 0 6px 16px var(--pink-border);
+}
+
+.theme-dropdown-menu a {
+    display: block;
+    padding: 10px 11px;
+    border-radius: 9px;
+    color: var(--red-700);
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.theme-dropdown-menu a.active {
+    color: var(--pink-50);
+    background: var(--pink-main);
+    font-weight: bold;
+}
+
+.wish-grid {
+    display: grid;
+    gap: 28px;
+}
+
+.wish-row-section {
+    margin-right: -14px;
+    margin-left: -14px;
+}
+
+.wish-row {
+    display: grid;
+    grid-auto-columns: calc(100% - 40px);
+    grid-auto-flow: column;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 18px 20px 22px;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scroll-padding-inline: 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: var(--pink-300) var(--pink-100);
+    scrollbar-width: thin;
+    touch-action: pan-x;
+}
+
+.wish-row:focus {
+    outline: none;
+}
+
+.wish-row::-webkit-scrollbar {
+    height: 7px;
+}
+
+.wish-row::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: var(--pink-100);
+}
+
+.wish-row::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--pink-300);
+}
+
+.wish-card {
+    position: relative;
+    min-width: 0;
+    min-height: 205px;
+    padding: 25px 20px 18px;
+    border: 1px solid var(--wood-dark);
+    border-radius: 5px 5px 16px 16px;
+    background: var(--paper);
+    box-shadow: 0 5px 12px var(--pink-border);
+    scroll-snap-align: start;
+}
+
+.wish-card::before {
+    position: absolute;
+    top: -7px;
+    right: 0;
+    left: 0;
+    height: 9px;
+    border-radius: 8px;
+    background: var(--wood);
+    content: "";
+}
+
+.ema-knot {
+    position: absolute;
+    top: -17px;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    transform: translateX(-50%) rotate(45deg);
+    border: 3px solid var(--pink-main);
+    background: var(--pink-50);
+}
+
+.wish-card-top {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.category-stamp {
+    display: inline-block;
+    padding: 4px 9px;
+    border: 1px solid var(--pink-300);
+    border-radius: 999px;
+    color: var(--red-700);
+    background: var(--pink-100);
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.wish-card time {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.wish-text {
+    min-height: 75px;
+    margin: 25px 0 20px;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+    text-align: center;
+}
+
+.wish-person {
+    display: flex;
+    padding-top: 12px;
+    align-items: end;
+    justify-content: space-between;
+    border-top: 1px dashed var(--pink-border);
+}
+
+.wish-person div {
+    display: flex;
+    flex-direction: column;
+}
+
+.wish-person strong {
+    color: var(--ink);
+    font-size: 12px;
+}
+
+.wish-person small,
+.wish-person > span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.empty-wishes {
+    padding: 45px 20px;
+    border: 1px dashed var(--pink-300);
+    border-radius: 16px;
+    color: var(--muted);
+    background: var(--paper);
+    text-align: center;
+}
+
+.empty-wishes span {
+    color: var(--pink-main);
+    font-size: 25px;
+}
+
+.empty-wishes p {
+    margin: 8px 0 0;
+    font-size: 13px;
+}
+
+@media (max-width: 360px) {
+    .home-theme-select {
+        grid-template-columns: 1fr;
+    }
+
+    .theme-filter-label {
+        padding: 2px 4px 0;
+    }
+}

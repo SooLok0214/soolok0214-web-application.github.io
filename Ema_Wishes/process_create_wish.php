@@ -59,34 +59,6 @@ if (!$category) {
     exit();
 }
 
-$userWishSql = "SELECT cardID FROM wishes WHERE userID = ?";
-$userWishStmt = mysqli_prepare($conn, $userWishSql);
-mysqli_stmt_bind_param($userWishStmt, "s", $userID);
-mysqli_stmt_execute($userWishStmt);
-$userWishResult = mysqli_stmt_get_result($userWishStmt);
-$userWish = mysqli_fetch_assoc($userWishResult);
-mysqli_stmt_close($userWishStmt);
-
-if ($userWish) {
-    echo "This user already has a wish.";
-    echo '<p><a href="home.php">Back to Wish List</a></p>';
-    exit();
-}
-
-$categoryWishSql = "SELECT cardID FROM wishes WHERE categoryID = ?";
-$categoryWishStmt = mysqli_prepare($conn, $categoryWishSql);
-mysqli_stmt_bind_param($categoryWishStmt, "s", $categoryID);
-mysqli_stmt_execute($categoryWishStmt);
-$categoryWishResult = mysqli_stmt_get_result($categoryWishStmt);
-$categoryWish = mysqli_fetch_assoc($categoryWishResult);
-mysqli_stmt_close($categoryWishStmt);
-
-if ($categoryWish) {
-    echo "This category already has a wish.";
-    echo '<p><a href="create_wish.php">Back</a></p>';
-    exit();
-}
-
 $idSql = "SELECT MAX(CAST(SUBSTRING(cardID, 2) AS UNSIGNED)) AS largestID FROM wishes";
 $idResult = mysqli_query($conn, $idSql);
 $idRow = mysqli_fetch_assoc($idResult);

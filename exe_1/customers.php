@@ -187,6 +187,13 @@ if ($conn->connect_error) {
                     <input type="submit" value="Edit">
                 </td>
             </form>
+            <td>
+                <form action="deletecustomer.php" method="POST"
+                    onsubmit="return confirm('do you want to delete this customer(<?php echo $row['CusID']; ?>)?');">
+                    <input type="hidden" name="CusID" value="<?php echo $row['CusID']; ?>">
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
         </tr>
     <?php 
 }

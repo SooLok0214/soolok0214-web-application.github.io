@@ -176,7 +176,9 @@ if (!$product) {
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>
-    <button><a href="products.php">Back</a></button>
+    <form action="products.php" method="GET">
+        <button type="submit">Back</button>
+    </form>
     <form action="process_edit_product.php" method="POST">
         <table width="600">
             <tr>

@@ -3,14 +3,15 @@
   $username = "Myshop";
   $password = "";
   $dbname = "Myshop";
+  $message = "";
 
 if (isset($_POST["Email"]) && isset($_POST["Password"])) {
 
   if (empty($_POST["Email"])){
-    echo("Please fill in Email.");
+    $message = "Please fill in Email.";
   } else if (empty($_POST["Password"])){
-    echo("Please fill in Password.");
-  }
+    $message = "Please fill in Password.";
+  } else {
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -31,9 +32,10 @@ session_start();
       header("Location: products.php");
       exit();
     } else {
-      echo "No Found User";
+      $message = "No Found User";
     }
   }
+}
   ?>
 
 
@@ -98,6 +100,13 @@ session_start();
     input[type="submit"]:hover {
         background: #111111;
     }
+
+    .error {
+        margin: 14px 0 0;
+        color: #d9367d;
+        text-align: center;
+        font-weight: bold;
+    }
 </style>
   </head>
   <body>
@@ -108,7 +117,10 @@ session_start();
         <br/>
         <h2>Password:</h2>
         <input type="password" name="Password">
-        <input type="submit">
+        <?php if ($message != "") { ?>
+          <div class="error"><?php echo htmlspecialchars($message); ?></div>
+        <?php } ?>
+        <input type="submit" value="Login">
       </form>
     </div>
   </body>

@@ -148,7 +148,9 @@
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>
-    <button><a href="profile.php">Back</a></button>
+    <form action="profile.php" method="GET">
+        <button type="submit">Back</button>
+    </form>
 
     <form action="process_edit_profile.php" method="POST">
         <table>

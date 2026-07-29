@@ -45,11 +45,21 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/common.css?v=20260729">
+    <link rel="stylesheet" href="css/index.css?v=20260729-4">
 </head>
 
 <body>
+    <header class="index-brand">
+        <div class="brand-content">
+            <div class="brand-mark" aria-hidden="true">結</div>
+            <div class="brand-text">
+                <p class="brand-title">EMA WISH SHRINE</p>
+                <p class="brand-subtitle">SAKURA EMA EXPERIENCE</p>
+            </div>
+        </div>
+    </header>
+
     <main class="login-page">
         <section class="login-intro">
             <div class="torii" aria-hidden="true">
@@ -64,10 +74,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         </section>
 
         <div id="email">
-            <?php if ($message != "") { ?>
-                <p class="login-message"><?php echo $message; ?></p>
-            <?php } ?>
-
             <form target="_self" method="POST">
                 <h2>Enter Your Email:</h2>
                 <input type="text" name="email">
@@ -75,7 +81,12 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
 
                 <h2>Password:</h2>
                 <input type="password" name="password">
-                <input type="submit">
+
+                <?php if ($message != "") { ?>
+                    <p class="login-message"><?php echo $message; ?></p>
+                <?php } ?>
+
+                <input type="submit" value="Login">
             </form>
 
             <p><a href="register.php">Register New Account</a></p>

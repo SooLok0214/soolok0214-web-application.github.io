@@ -172,7 +172,9 @@
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>
-    <button><a class="link" href="customers.php">Back</a></button>
+    <form action="customers.php" method="GET">
+        <button type="submit">Back</button>
+    </form>
     <table width = "600">
         <tr>
             <th>Name</th>

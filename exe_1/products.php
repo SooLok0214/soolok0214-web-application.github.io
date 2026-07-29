@@ -192,15 +192,12 @@ if (!isset($_SESSION["Email"])) {
                     </form>
                 </td>
                 <td>
-                    <button><a href="deleteproduct.php?ProductID=<?php echo ($row['ProductID']); ?>"
-                            onclick="return confirmdelete()">
-                            Delete
-                        </a></button>
-                    <script>
-                        function confirmdelete() {
-                            return confirm('do you want to delete this product(<?php echo $row['ProductID']; ?>)?');
-                        }
-                    </script>
+                    <form action="deleteproduct.php" method="POST"
+                        onsubmit="return confirm('do you want to delete this product(<?php echo $row['ProductID']; ?>)?');">
+                        <input type="hidden" name="ProductID" value="<?php echo $row['ProductID']; ?>">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
             </tr>
         <?php
         }

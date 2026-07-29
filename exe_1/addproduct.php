@@ -174,7 +174,9 @@ if (!$conn) {
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>
-    <button><a class="link" href="products.php">Back</a></button>
+    <form action="products.php" method="GET">
+        <button type="submit">Back</button>
+    </form>
     <table width="600">
         <tr>
             <th>ProductID</th>
