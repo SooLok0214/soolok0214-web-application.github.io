@@ -1,65 +1,75 @@
 <?php
-$servername = "localhost";
-$username = "Ema_Wishes";
-$password = "123123";
-$dbname = "ema_wishes";
+session_start();
 $message = "";
-
-if (isset($_POST["email"]) && isset($_POST["password"])) {
-
-    if (empty($_POST["email"])) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST["email"] ?? "";
+    $loginPassword = $_POST["password"] ?? "";
+    if ($email == "") {
         $message = "Please fill in Email.";
-    } else if (empty($_POST["password"])) {
+    } elseif ($loginPassword == "") {
         $message = "Please fill in Password.";
-    }
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    $conn->set_charset("utf8mb4");
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    session_start();
-
-    $query = "SELECT * FROM users WHERE email='" . $_POST["email"] . "' && password='" . $_POST["password"] . "'";
-    $result = $conn->query($query) or die("Couldn't execute query");
-    $numrow = mysqli_num_rows($result);
-
-    if ($numrow > 0) {
-        $_SESSION["email"] = $_POST["email"];
-        header("Location: home.php");
-        exit();
     } else {
-        $message = "No Found User";
+        $conn = new mysqli(
+            "localhost",
+            "Ema_Wishes",
+            "123123",
+            "ema_wishes"
+        );
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $conn->set_charset("utf8mb4");
+        $email = $conn->real_escape_string($email);
+        $loginPassword = $conn->real_escape_string($loginPassword);
+        $query = "
+            SELECT *
+            FROM users
+            WHERE email = '$email'
+            AND password = '$loginPassword'
+        ";
+        $result = $conn->query($query)
+            or die("Couldn't execute query");
+        if ($result->num_rows > 0) {
+            $_SESSION["email"] = $email;
+            $conn->close();
+            header("Location: home.php");
+            exit();
+        } else {
+            $message = "No Found User";
+        }
+        $conn->close();
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/common.css?v=20260729">
-    <link rel="stylesheet" href="css/index.css?v=20260729-4">
+    <link
+        rel="stylesheet"
+        href="css/common.css?v=20260730-9">
+    <link
+        rel="stylesheet"
+        href="css/index.css?v=20260730-4">
 </head>
 
 <body>
-    <header class="index-brand">
-        <div class="brand-content">
-            <div class="brand-mark" aria-hidden="true">結</div>
-            <div class="brand-text">
-                <p class="brand-title">EMA WISH SHRINE</p>
-                <p class="brand-subtitle">SAKURA EMA EXPERIENCE</p>
-            </div>
-        </div>
+    <header class="site-header">
+        <a class="site-brand" href="index.php">
+            <span class="site-brand-mark">結</span>
+            <span class="site-brand-copy">
+                <h1 class="site-brand-title">
+                    Ema Wish Shrine
+                </h1>
+                <small>Sakura Ema Experience</small>
+            </span>
+        </a>
     </header>
-
     <main class="login-page">
         <section class="login-intro">
             <div class="torii" aria-hidden="true">
@@ -68,33 +78,41 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                 <span class="torii-leg torii-leg-left"></span>
                 <span class="torii-leg torii-leg-right"></span>
             </div>
-
-            <p class="intro-label">ONLINE EMA EXPERIENCE</p>
-            <h1>Let Your Wish<br><span class="intro-highlight">In The Spring Breeze</span></h1>
+            <p class="intro-label">
+                ONLINE EMA EXPERIENCE
+            </p>
+            <h1>
+                Let Your Wish<br>
+                <span class="intro-highlight">
+                    In The Spring Breeze
+                </span>
+            </h1>
         </section>
-
         <div id="email">
-            <form target="_self" method="POST">
+            <form method="POST">
                 <h2>Enter Your Email:</h2>
-                <input type="text" name="email">
+                <input
+                    type="text"
+                    name="email"
+                    value="<?php echo htmlspecialchars($_POST["email"] ?? ""); ?>">
                 <br>
-
                 <h2>Password:</h2>
-                <input type="password" name="password">
-
+                <input
+                    type="password"
+                    name="password">
                 <?php if ($message != "") { ?>
-                    <p class="login-message"><?php echo $message; ?></p>
+                    <p class="login-message">
+                        <?php echo $message; ?>
+                    </p>
                 <?php } ?>
-
-                <input type="submit" value="Login">
+                <input
+                    type="submit"
+                    value="Login">
             </form>
-
-            <p><a href="register.php">Register New Account</a></p>
+            <p>
+                <a href="register.php">
+                    Register New Account
+                </a>
+            </p>
         </div>
-    </main>
-    <?php
-    require __DIR__ . "/includes/footer.php";
-    ?>
-</body>
-
-</html>
+        <?php require "includes/footer.php";

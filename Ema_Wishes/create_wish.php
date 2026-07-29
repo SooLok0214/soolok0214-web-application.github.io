@@ -1,96 +1,178 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$username = "Ema_Wishes";
-$password = "123123";
-$dbname = "ema_wishes";
+if (!isset($_SESSION["email"])) {
+    header("Location: index.php");
+    exit();
+}
 
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect(
+    "localhost",
+    "Ema_Wishes",
+    "123123",
+    "ema_wishes"
+);
 
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
 mysqli_set_charset($conn, "utf8mb4");
-
-if (!isset($_SESSION["email"])) {
-    header("Location: index.php");
-    exit();
-}
-
-$email = $_SESSION["email"];
-$userSql = "SELECT userID, username, gender FROM users WHERE email = ?";
-$userStmt = mysqli_prepare($conn, $userSql);
-mysqli_stmt_bind_param($userStmt, "s", $email);
-mysqli_stmt_execute($userStmt);
-$userResult = mysqli_stmt_get_result($userStmt);
+$email = mysqli_real_escape_string($conn, $_SESSION["email"]);
+$userSql = "
+    SELECT userID, username, gender
+    FROM users
+    WHERE email = '$email'
+";
+$userResult = mysqli_query($conn, $userSql);
 $currentUser = mysqli_fetch_assoc($userResult);
-mysqli_stmt_close($userStmt);
-
 if (!$currentUser) {
     session_destroy();
     header("Location: index.php");
     exit();
 }
-
-$categorySql = "SELECT categoryID, categoryname, categoryicon, description
-                FROM wishcategories
-                ORDER BY categoryID";
+$categorySql = "
+    SELECT categoryID, categoryname, categoryicon, description
+    FROM wishcategories
+    ORDER BY categoryID
+";
 $categoryResult = mysqli_query($conn, $categorySql);
-
 $pageTitle = "Add Wish";
-require __DIR__ . "/includes/header.php";
+$pageCss = "css/create_wish.css?v=20260730-5";
+require "includes/header.php";
 ?>
 
-<h2>Add New Wish</h2>
+<section class="create-page">
+    <div class="create-intro">
+        <p>WRITE YOUR EMA</p>
+        <h2>Make a New Wish</h2>
+        <span>Choose a theme and leave a sincere wish on the wall.</span>
+    </div>
+    <form class="create-wish-form"
+        action="process_create_wish.php"
+        method="POST">
+        <fieldset class="identity-field">
+            <legend class="form-step-heading">
+                <span class="form-step-number">01</span>
+                <span class="form-step-heading-copy">
+                    <strong>Your information</strong>
+                    <small>
+                        Review your details and choose whether to show them.
+                    </small>
+                </span>
+            </legend>
+            <div class="wish-user-card">
+                <div>
+                    <small>Name</small>
+                    <strong>
+                        <?php echo htmlspecialchars($currentUser["username"]); ?>
+                    </strong>
+                </div>
+                <div>
+                    <small>Gender</small>
+                    <strong>
+                        <?php echo ucfirst(
+                            htmlspecialchars($currentUser["gender"])
+                        ); ?>
+                    </strong>
+                </div>
+            </div>
+            <fieldset class="privacy-field">
+                <legend>Hide personal information?</legend>
+                <p>
+                    Use one privacy setting to hide both your name and gender.
+                </p>
+                <div class="privacy-choices">
+                    <label class="privacy-choice">
+                        <input
+                            type="checkbox"
+                            name="hideUser"
+                            value="1"
+                            checked>
+                        <span>
+                            <strong>Post anonymously</strong>
 
-<p><a href="home.php">Back</a></p>
+                            <small>
+                                Your name and gender will not appear on the
+                                wish wall.
+                            </small>
+                        </span>
+                    </label>
+                </div>
+            </fieldset>
+        </fieldset>
+        <fieldset class="wish-theme-field">
+            <legend class="form-step-heading">
+                <span class="form-step-number">02</span>
+                <span class="form-step-heading-copy">
+                    <strong>What are you wishing for?</strong>
+                    <small>
+                        Choose the wish theme closest to your heart.
+                    </small>
+                </span>
+            </legend>
+            <div class="wish-theme-grid">
+                <?php while ($category = mysqli_fetch_assoc($categoryResult)) { ?>
+                    <label class="wish-theme-card">
+                        <input
+                            type="radio"
+                            name="categoryID"
+                            value="<?php echo $category["categoryID"]; ?>"
+                            required>
+                        <span class="wish-theme-card-content">
+                            <strong class="wish-theme-icon">
+                                <?php echo htmlspecialchars(
+                                    $category["categoryicon"]
+                                ); ?>
+                            </strong>
+                            <span class="wish-theme-name">
+                                <?php echo htmlspecialchars(
+                                    $category["categoryname"]
+                                ); ?>
+                            </span>
+                            <small>
+                                <?php echo htmlspecialchars(
+                                    $category["description"]
+                                ); ?>
+                            </small>
+                        </span>
+                    </label>
+                <?php } ?>
+            </div>
+        </fieldset>
+        <fieldset class="wish-text-field">
+            <legend class="form-step-heading">
+                <span class="form-step-number">03</span>
 
-<form action="process_create_wish.php" method="POST">
-    <table border="1" cellpadding="8">
-        <tr>
-            <th>Name</th>
-            <th>Gender</th>
-            <th>Category</th>
-            <th>Wish Text</th>
-            <th>Action</th>
-        </tr>
-        <tr>
-            <td>
-                <?php
-                echo $currentUser["username"];
-                ?>
-            </td>
-            <td>
-                <?php echo $currentUser["gender"]; ?>
-            </td>
-            <td>
-                <select name="categoryID" required>
-                    <option value="">Please select</option>
-
-                    <?php while ($category = mysqli_fetch_assoc($categoryResult)) { ?>
-                        <option value="<?php echo $category["categoryID"]; ?>">
-                            <?php
-                            echo $category["categoryicon"] . " " .
-                                $category["categoryname"] . " - " .
-                                $category["description"];
-                            ?>
-                        </option>
-                    <?php } ?>
-                </select>
-            </td>
-            <td>
-                <textarea name="wishtext" rows="5" cols="40" required></textarea>
-            </td>
-            <td>
-                <input type="submit" value="Add">
-            </td>
-        </tr>
-    </table>
-</form>
-
+                <span class="form-step-heading-copy">
+                    <strong>Write your wish</strong>
+                    <small>
+                        Share the sincere wish you want to leave on the wall.
+                    </small>
+                </span>
+            </legend>
+            <label class="form-field">
+                <span>Wish Text</span>
+                <textarea
+                    name="wishtext"
+                    rows="6"
+                    placeholder="Write your wish here..."
+                    required></textarea>
+                <small>
+                    Write a sincere wish in English or Chinese.
+                </small>
+            </label>
+        </fieldset>
+        <input
+            class="create-wish-button"
+            type="submit"
+            value="Add My Wish">
+    </form>
+    <p class="back-wall-link">
+        <a href="home.php">Return to Wish Wall</a>
+    </p>
+</section>
 <?php
 mysqli_close($conn);
-require __DIR__ . "/includes/footer.php";
+require "includes/footer.php";
 ?>

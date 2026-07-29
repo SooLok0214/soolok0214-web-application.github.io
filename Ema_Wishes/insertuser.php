@@ -1,19 +1,18 @@
 <?php
-$servername = "localhost";
-$dbusername = "Ema_Wishes";
-$dbpassword = "123123";
-$dbname = "ema_wishes";
-
-// Create connection
-$conn = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-mysqli_set_charset($conn, "utf8mb4");
-
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
     header("Location: register.php");
+    exit();
+}
+
+if (
+    empty($_POST["username"]) ||
+    empty($_POST["email"]) ||
+    empty($_POST["password"]) ||
+    empty($_POST["confirm_password"]) ||
+    empty($_POST["phonenumber"]) ||
+    empty($_POST["gender"])
+) {
+    header("Location: register.php?error=" . urlencode("Please fill in all fields."));
     exit();
 }
 
@@ -21,36 +20,64 @@ $username = $_POST["username"];
 $email = $_POST["email"];
 $userpassword = $_POST["password"];
 $confirmPassword = $_POST["confirm_password"];
-$phonenumber = ($_POST["phonenumber"]);
+$phonenumber = $_POST["phonenumber"];
 $gender = $_POST["gender"];
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    die("Email format is incorrect. <a href='register.php'>Back</a>");
+    header("Location: register.php?error=" . urlencode("Email format is incorrect."));
+    exit();
 }
-
+if (strlen($userpassword) < 6) {
+    header("Location: register.php?error=" . urlencode("Password must be at least 6 characters."));
+    exit();
+}
 if ($userpassword != $confirmPassword) {
-    die("Passwords do not match. <a href='register.php'>Back</a>");
+    header("Location: register.php?error=" . urlencode("Passwords do not match."));
+    exit();
 }
-
 if ($gender != "male" && $gender != "female") {
-    die("Please select your gender. <a href='register.php'>Back</a>");
+    header("Location: register.php?error=" . urlencode("Please select your gender."));
+    exit();
 }
+$conn = mysqli_connect(
+    "localhost",
+    "Ema_Wishes",
+    "123123",
+    "ema_wishes"
+);
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+mysqli_set_charset($conn, "utf8mb4");
 
-$checkSql = "SELECT userID FROM users WHERE username = ? OR email = ?";
-$checkStmt = mysqli_prepare($conn, $checkSql);
-mysqli_stmt_bind_param($checkStmt, "ss", $username, $email);
-mysqli_stmt_execute($checkStmt);
-mysqli_stmt_store_result($checkStmt);
+$username = mysqli_real_escape_string($conn, $username);
+$email = mysqli_real_escape_string($conn, $email);
+$userpassword = mysqli_real_escape_string($conn, $userpassword);
+$phonenumber = mysqli_real_escape_string($conn, $phonenumber);
+$gender = mysqli_real_escape_string($conn, $gender);
 
-if (mysqli_stmt_num_rows($checkStmt) > 0) {
-    mysqli_stmt_close($checkStmt);
+$checkSql = "
+    SELECT userID
+    FROM users
+    WHERE username = '$username'
+    OR email = '$email'
+";
+$checkResult = mysqli_query($conn, $checkSql);
+if (mysqli_num_rows($checkResult) > 0) {
     mysqli_close($conn);
-    die("Username or Email already exists. <a href='register.php'>Back</a>");
+    header(
+        "Location: register.php?error=" .
+            urlencode("Username or Email already exists.")
+    );
+    exit();
 }
 
-mysqli_stmt_close($checkStmt);
-
-$idSql = "SELECT MAX(CAST(SUBSTRING(userID, 2) AS UNSIGNED)) AS largestID FROM users";
+$idSql = "
+    SELECT MAX(
+        CAST(SUBSTRING(userID, 2) AS UNSIGNED)
+    ) AS largestID
+    FROM users
+";
 $idResult = mysqli_query($conn, $idSql);
 $idRow = mysqli_fetch_assoc($idResult);
 $nextNumber = (int) $idRow["largestID"] + 1;
@@ -58,31 +85,39 @@ $nextNumber = (int) $idRow["largestID"] + 1;
 if ($nextNumber < 1001) {
     $nextNumber = 1001;
 }
-
 $newUserID = "U" . $nextNumber;
 
-$sql = "INSERT INTO users
-        (username, email, password, phonenumber, gender, userID, created_time)
-        VALUES (?, ?, ?, ?, ?, ?, NOW())";
-
-$stmt = mysqli_prepare($conn, $sql);
-mysqli_stmt_bind_param(
-    $stmt,
-    "ssssss",
-    $username,
-    $email,
-    $userpassword,
-    $phonenumber,
-    $gender,
-    $newUserID
-);
-
-if (mysqli_stmt_execute($stmt)) {
+$sql = "
+    INSERT INTO users
+    (
+        username,
+        email,
+        password,
+        phonenumber,
+        gender,
+        userID,
+        created_time
+    )
+    VALUES
+    (
+        '$username',
+        '$email',
+        '$userpassword',
+        '$phonenumber',
+        '$gender',
+        '$newUserID',
+        NOW()
+    )
+";
+if (mysqli_query($conn, $sql)) {
+    mysqli_close($conn);
     header("Location: index.php");
     exit();
 } else {
-    echo "Error: " . mysqli_error($conn);
+    mysqli_close($conn);
+    header(
+        "Location: register.php?error=" .
+            urlencode("Unable to create account. Please try again.")
+    );
+    exit();
 }
-
-mysqli_stmt_close($stmt);
-mysqli_close($conn);
