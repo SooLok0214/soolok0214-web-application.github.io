@@ -161,7 +161,7 @@ $products = mysqli_query($conn, "SELECT ProductID, ProductName, Price FROM produ
 
     <div class="order-box">
         <h1>Create Order</h1>
-        <form action="insertorder.php" method="POST">
+        <form action="insertorder.php" method="POST" novalidate>
             <label for="CusID">Customer</label>
             <select id="CusID" name="CusID" required>
                 <option value="">Select Customer</option>
