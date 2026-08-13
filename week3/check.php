@@ -18,6 +18,7 @@ $number = $_POST["number"];
 
 $studentID = $_SESSION["studentID"];
 
+
 // Check student record
 $check = "SELECT * FROM game_record
           WHERE studentID = '$studentID'";
@@ -35,17 +36,35 @@ if (mysqli_num_rows($result) == 0) {
 }
 
 
-// Update game score
+// Get record
+$result = mysqli_query($conn, $check);
+
+$row = mysqli_fetch_assoc($result);
+
+
+// Check update count
 if ($game >= 1 && $game <= 3) {
 
-    $sql = "UPDATE game_record
-            SET game$game = '$number'
-            WHERE studentID = '$studentID'";
+    $count = $row["game" . $game . "_count"];
 
-    mysqli_query($conn, $sql);
+    if ($count < 2) {
+
+        $sql = "UPDATE game_record
+                SET game$game = '$number',
+                    game{$game}_count = game{$game}_count + 1
+                WHERE studentID = '$studentID'";
+
+        mysqli_query($conn, $sql);
+
+        mysqli_close($conn);
+
+        header("Location: gamelist.php");
+        exit();
+    } else {
+
+        mysqli_close($conn);
+
+        header("Location: game.php?game=$game&limit=1");
+        exit();
+    }
 }
-
-mysqli_close($conn);
-
-header("Location: gamelist.php");
-exit();

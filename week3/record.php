@@ -94,6 +94,17 @@ $result = mysqli_query($conn, $sql);
     <button onclick="window.location.href='gamelist.php'">
         Back
     </button>
+    <button onclick="clearRecord()">
+        Clear Record
+    </button>
+
+    <script>
+        function clearRecord() {
+            if (confirm("Do you want to clear your game record?")) {
+                window.location.href = "clearrecord.php";
+            }
+        }
+    </script>
 
 </body>
 

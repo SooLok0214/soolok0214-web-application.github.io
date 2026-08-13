@@ -26,9 +26,21 @@ $game = $_GET["game"];
             margin: 10px;
         }
     </style>
+
 </head>
 
 <body>
+
+    <?php
+
+    if (isset($_GET["limit"])) {
+
+        echo "<script>
+            alert('Game $game can only be updated 2 times.');
+          </script>";
+    }
+
+    ?>
 
     <div class="game-box">
 
@@ -36,7 +48,9 @@ $game = $_GET["game"];
 
         <form action="check.php" method="POST">
 
-            <input type="hidden" name="game" value="<?php echo $game; ?>">
+            <input type="hidden"
+                name="game"
+                value="<?php echo $game; ?>">
 
             <button class="number" name="number" value="0">0</button>
             <button class="number" name="number" value="1">1</button>
