@@ -164,6 +164,8 @@ if (!isset($_SESSION["Email"])) {
         <a href="addproduct.php"><span>&#43;</span>Add Product</a>
         <a href="customers.php"><span>&#128101;</span>Customers</a>
         <a href="addcustomer.php"><span>&#43;</span>Add Customer</a>
+        <a href="orders.php"><span>&#128203;</span>Order List</a>
+        <a href="createorder.php"><span>&#43;</span>Create Order</a>
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>

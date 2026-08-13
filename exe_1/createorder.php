@@ -1,19 +1,22 @@
-﻿<?php
+<?php
 $servername = "localhost";
 $username = "Myshop";
 $password = "";
-$dbname = "Myshop";
+$dbname = "myshop";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-session_start();
 
-$login_email = $_SESSION["Email"];
+session_start();
+if (!isset($_SESSION["Email"])) {
+    header("Location: index.php");
+    exit();
+}
+
+$customers = mysqli_query($conn, "SELECT CusID, Name FROM customers ORDER BY CusID");
+$products = mysqli_query($conn, "SELECT ProductID, ProductName, Price FROM products ORDER BY ProductID");
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +25,7 @@ $login_email = $_SESSION["Email"];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Create Order</title>
     <style>
         * {
             box-sizing: border-box;
@@ -85,53 +88,39 @@ $login_email = $_SESSION["Email"];
             line-height: 26px;
         }
 
-        table {
+        .order-box {
             width: 94%;
-            max-width: 980px;
+            max-width: 760px;
             margin: 28px auto;
-            border-collapse: collapse;
+            padding: 24px;
             background: #ffffff;
             border: 1px solid #ffc1dc;
             box-shadow: 0 8px 20px rgba(255, 79, 154, 0.13);
         }
 
-        th {
-            background: #ffb3d2;
-            color: #241018;
+        h1 {
+            margin-top: 0;
+            color: #d9367d;
         }
 
-        th,
-        td {
-            border: 1px solid #ffc1dc;
-            padding: 12px;
-            text-align: left;
-            vertical-align: middle;
+        label {
+            display: block;
+            margin: 16px 0 6px;
+            font-weight: bold;
         }
 
-        tr:hover {
-            background: #ffe8f2;
-        }
-
-        form {
-            margin: 0;
-        }
-
-        input,
-        textarea {
+        select,
+        input {
             width: 100%;
-            max-width: 100%;
-            padding: 8px;
+            padding: 10px;
             border: 1px solid #ffaad0;
             border-radius: 5px;
             background: #ffffff;
-            color: #2b2026;
         }
 
-        input[type="submit"],
         button {
-            width: auto;
-            margin: 4px;
-            padding: 9px 14px;
+            margin-top: 20px;
+            padding: 10px 18px;
             border: 0;
             border-radius: 5px;
             background: #ff4f9a;
@@ -140,18 +129,19 @@ $login_email = $_SESSION["Email"];
             font-weight: bold;
         }
 
-        input[type="submit"]:hover,
         button:hover {
             background: #111111;
         }
 
-        a {
-            color: #d9367d;
-            text-decoration: none;
-        }
-
-        button a {
-            color: #ffffff;
+        .warning {
+            margin: 16px 0 0;
+            padding: 12px;
+            border: 1px solid #ff8fbe;
+            border-radius: 5px;
+            background: #ffe3ef;
+            color: #a31655;
+            text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -168,39 +158,40 @@ $login_email = $_SESSION["Email"];
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>
-    <table width="800">
-        <tr>
-            <th>Name</th>
-            <th>CusID</th>
-            <th>Email</th>
-            <th>JoinYear</th>
-            <th>Phone</th>
-        </tr>
-        <?php
 
-        $query = "SELECT * FROM customers WHERE Email = '$login_email'";
-        $result = mysqli_query($conn, $query) or die("Couldn't execute query");
-        while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-            <tr>
-                <form action="editprofile.php" method="POST">
-                    <td><?php echo $row['Name'] ?></td>
-                    <td><?php echo $row['CusID'] ?></td>
-                    <td><?php echo $row['Email'] ?></td>
-                    <td><?php echo $row['JoinYear'] ?></td>
-                    <td><?php echo $row['Phone'] ?></td>
-                    <td>
-                        <input type="hidden" name="Email" value="<?php echo $row['Email']; ?>">
-                        <input type="submit" value="Edit">
-                    </td>
-                </form>
-            </tr>
-        <?php
-        }
-        mysqli_close($conn);
-        ?>
+    <div class="order-box">
+        <h1>Create Order</h1>
+        <form action="insertorder.php" method="POST">
+            <label for="CusID">Customer</label>
+            <select id="CusID" name="CusID" required>
+                <option value="">Select Customer</option>
+                <?php while ($customer = mysqli_fetch_assoc($customers)) { ?>
+                    <option value="<?php echo $customer['CusID']; ?>">
+                        <?php echo htmlspecialchars($customer['CusID'] . " - " . $customer['Name']); ?>
+                    </option>
+                <?php } ?>
+            </select>
 
-    </table>
+            <label for="ProductID">Product</label>
+            <select id="ProductID" name="ProductID" required>
+                <option value="">Select Product</option>
+                <?php while ($product = mysqli_fetch_assoc($products)) { ?>
+                    <option value="<?php echo $product['ProductID']; ?>">
+                        <?php echo htmlspecialchars($product['ProductID'] . " - " . $product['ProductName'] . " (RM " . $product['Price'] . ")"); ?>
+                    </option>
+                <?php } ?>
+            </select>
+
+            <label for="Quantity">Quantity</label>
+            <input id="Quantity" type="number" name="Quantity" min="1" required>
+
+            <?php if (isset($_GET["error"])) { ?>
+                <div class="warning"><?php echo htmlspecialchars($_GET["error"]); ?></div>
+            <?php } ?>
+
+            <button type="submit">Submit Order</button>
+        </form>
+    </div>
 </body>
 
 </html>
