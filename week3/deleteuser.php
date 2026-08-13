@@ -1,0 +1,21 @@
+<?php
+$servername = "localhost";
+$username = "soolok";
+$password = "Rabbit5354";
+$dbname = "soolok";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// SQL to delete a record
+$sql = "DELETE FROM student WHERE studentID='" . $_GET["studentID"] . "'";
+
+if ($conn->query($sql) === TRUE) {
+    header("Location: userlist.php");
+}
+
+$conn->close();
