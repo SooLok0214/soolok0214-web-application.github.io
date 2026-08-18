@@ -162,17 +162,43 @@ if (!$conn) {
             font-weight: bold;
         }
     </style>
+    <style>
+        .sidebar details { margin: 4px 0; }
+        .sidebar summary { position: relative; display: block; padding: 11px 12px; border-radius: 6px; color: #ffffff; cursor: pointer; font-weight: bold; list-style: none; }
+        .sidebar summary::-webkit-details-marker { display: none; }
+        .sidebar summary:hover { background: #ff4f9a; }
+        .sidebar summary::after { content: "\25BE"; position: absolute; top: 16px; right: 12px; color: #ffffff; }
+        .sidebar details[open] summary::after { transform: rotate(180deg); }
+        .sidebar .submenu { margin: 2px 0 8px 38px; padding-left: 8px; border-left: 2px solid #ff7ab8; }
+        .sidebar .submenu a { margin: 2px 0; padding: 8px 10px; font-size: 14px; font-weight: normal; }
+    </style>
 </head>
 
 <body>
     <div class="sidebar">
         <div class="brand">MyShop</div>
-        <a href="products.php"><span>&#128722;</span>Products</a>
-        <a href="addproduct.php"><span>&#43;</span>Add Product</a>
-        <a href="customers.php"><span>&#128101;</span>Customers</a>
-        <a href="addcustomer.php"><span>&#43;</span>Add Customer</a>
-        <a href="orders.php"><span>&#128203;</span>Order List</a>
-        <a href="createorder.php"><span>&#43;</span>Create Order</a>
+        <a href="homepage.php"><span>&#127968;</span>Home</a>
+        <details open>
+            <summary><span>&#128722;</span>Products</summary>
+            <div class="submenu">
+                <a href="products.php">Product List</a>
+                <a href="addproduct.php">Add Product</a>
+            </div>
+        </details>
+        <details>
+            <summary><span>&#128101;</span>Customers</summary>
+            <div class="submenu">
+                <a href="customers.php">Customer List</a>
+                <a href="addcustomer.php">Add Customer</a>
+            </div>
+        </details>
+        <details>
+            <summary><span>&#128203;</span>Orders</summary>
+            <div class="submenu">
+                <a href="orders.php">Order List</a>
+                <a href="createorder.php">Create Order</a>
+            </div>
+        </details>
         <a href="profile.php"><span>&#128100;</span>Profile</a>
         <a href="logout.php"><span>&#9211;</span>Logout</a>
     </div>

@@ -29,7 +29,7 @@ session_start();
 
   if ($numrow > 0) {
       $_SESSION["Email"] = $_POST["Email"];
-      header("Location: products.php");
+      header("Location: homepage.php");
       exit();
     } else {
       $message = "No Found User";
