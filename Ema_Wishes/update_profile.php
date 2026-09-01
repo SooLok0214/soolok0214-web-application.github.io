@@ -22,7 +22,7 @@ if ($savedAvatar != "" && basename($savedAvatar) == $savedAvatar && is_file(__DI
     $avatarSource = "uploads/" . rawurlencode($savedAvatar);
 }
 $pageTitle = "Update Profile";
-$pageCss = "css/profile.css?v=20260730-23";
+$pageCss = "css/profile.css?v=20260730-24";
 require "includes/header.php";
 ?>
 <section class="profile-page update-profile-page">
@@ -49,6 +49,7 @@ require "includes/header.php";
             </div>
         </label>
         <form
+            id="profile-update-form"
             class="profile-form"
             method="POST"
             action="profile.php"
@@ -136,6 +137,11 @@ require "includes/header.php";
                     </label>
                 </div>
             </fieldset>
+            <p
+                id="profile-form-message"
+                class="profile-form-message"
+                role="alert"
+                aria-live="polite"></p>
             <input
                 class="profile-button"
                 type="submit"
@@ -144,8 +150,55 @@ require "includes/header.php";
     </section>
 </section>
 <script>
+    const profileUpdateForm = document.getElementById("profile-update-form");
+    const profileFormMessage = document.getElementById("profile-form-message");
     const profileImageInput = document.getElementById("profileimage");
     const profileImagePreview = document.getElementById("profile-image-preview");
+    function showProfileWarning(message, field) {
+        profileFormMessage.textContent = message;
+        profileFormMessage.classList.add("is-visible");
+        if (field) {
+            field.focus();
+        }
+    }
+    function clearProfileWarning() {
+        profileFormMessage.textContent = "";
+        profileFormMessage.classList.remove("is-visible");
+    }
+    profileUpdateForm.addEventListener("submit", function(event) {
+        const usernameField = this.elements.username;
+        const emailField = this.elements.email;
+        const passwordField = this.elements.password;
+        const confirmPasswordField = this.elements.confirm_password;
+        const phoneField = this.elements.phonenumber;
+        const genderField = this.querySelector('input[name="gender"]:checked');
+        clearProfileWarning();
+        if (!usernameField.value.trim() || !emailField.value.trim() || !phoneField.value.trim() || !genderField) {
+            event.preventDefault();
+            showProfileWarning("Please fill in all fields.", !usernameField.value.trim() ? usernameField : !emailField.value.trim() ? emailField : !phoneField.value.trim() ? phoneField : null);
+            return;
+        }
+        if (!emailField.validity.valid) {
+            event.preventDefault();
+            showProfileWarning("Email format is incorrect.", emailField);
+            return;
+        }
+        if (!/^\+?[0-9]{9,11}$/.test(phoneField.value.trim())) {
+            event.preventDefault();
+            showProfileWarning("Phone Number must contain 9 to 11 numbers, with an optional + at the beginning.", phoneField);
+            return;
+        }
+        if (passwordField.value && passwordField.value.length < 6) {
+            event.preventDefault();
+            showProfileWarning("New Password must contain at least 6 characters.", passwordField);
+            return;
+        }
+        if (passwordField.value !== confirmPasswordField.value) {
+            event.preventDefault();
+            showProfileWarning("Password and Confirm Password do not match.", confirmPasswordField);
+        }
+    });
+    profileUpdateForm.addEventListener("input", clearProfileWarning);
     profileImageInput.addEventListener("change", function() {
         const imageFile = this.files[0];
         if (!imageFile) {
@@ -161,13 +214,13 @@ require "includes/header.php";
             imageFile.size > 2 * 1024 * 1024
         ) {
             this.value = "";
-            this.setCustomValidity(
-                "Please select a JPG, PNG or WEBP image within 2MB."
+            showProfileWarning(
+                "Please select a JPG, PNG or WEBP image within 2MB.",
+                this
             );
-            this.reportValidity();
             return;
         }
-        this.setCustomValidity("");
+        clearProfileWarning();
         profileImagePreview.src = URL.createObjectURL(imageFile);
     });
 </script>
