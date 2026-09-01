@@ -49,7 +49,7 @@ $totalWishes = count($wishes);
 $wishRows = $totalWishes > 0 ? array_chunk($wishes, ceil($totalWishes / 2)) : [];
 $selectedThemeLabel = $selectedCategory ? $selectedCategory["categoryname"] . " (" . $totalWishes . " wishes)" : "All Themes (" . $allWishesTotal . " wishes)";
 $pageTitle = "Wish Wall";
-$pageCss = "css/home.css?v=20260730-10";
+$pageCss = "css/home.css?v=20260901-1";
 require "includes/header.php";
 ?>
 <section class="home-hero">

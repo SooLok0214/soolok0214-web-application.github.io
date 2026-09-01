@@ -100,9 +100,10 @@ require "includes/header.php";
                     type="tel"
                     name="phonenumber"
                     inputmode="tel"
-                    pattern="\+?[0-9]+"
-                    title="Use numbers only, with an optional + at the beginning."
-                    oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '');"
+                    pattern="\+?[0-9]{9,11}"
+                    maxlength="12"
+                    title="Enter 9 to 11 numbers, with an optional + at the beginning."
+                    oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '').slice(0, this.value.startsWith('+') ? 12 : 11);"
                     value="<?php echo htmlspecialchars($currentUser["phonenumber"]); ?>"
                     required>
             </label>

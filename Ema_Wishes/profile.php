@@ -37,8 +37,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $message = "Please fill in all fields.";
     } elseif (!filter_var($emailValue, FILTER_VALIDATE_EMAIL)) {
         $message = "Email format is incorrect.";
-    } elseif (!preg_match("/^\+?[0-9]+$/", $phoneValue)) {
-        $message = "Phone Number can only contain numbers and an optional + at the beginning.";
+    } elseif (!preg_match("/^\+?[0-9]{9,11}$/", $phoneValue)) {
+        $message = "Phone Number must contain 9 to 11 numbers, with an optional + at the beginning.";
     } elseif ($passwordValue != "" && strlen($passwordValue) < 6) {
         $message = "New Password must contain at least 6 characters.";
     } elseif ($passwordValue != $confirmPasswordValue) {

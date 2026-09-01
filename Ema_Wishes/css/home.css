@@ -371,14 +371,29 @@ main {
     white-space: nowrap;
 }
 .wish-text {
-    min-height: 75px;
+    height: calc(1.75em * 3);
     margin: 24px 0 19px;
+    padding: 0 6px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-color: var(--pink-500) var(--pink-100);
+    scrollbar-width: thin;
     color: var(--ink);
     font-family: var(--serif);
     font-size: 18px;
     line-height: 1.75;
     overflow-wrap: anywhere;
     text-align: center;
+}
+.wish-text::-webkit-scrollbar {
+    width: 4px;
+}
+.wish-text::-webkit-scrollbar-track {
+    background: var(--pink-100);
+}
+.wish-text::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: var(--pink-500);
 }
 .wish-person {
     position: relative;

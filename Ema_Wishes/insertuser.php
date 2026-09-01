@@ -20,8 +20,8 @@ $gender = $_POST["gender"];
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     registerError("Email format is incorrect.");
 }
-if (!preg_match("/^\+?[0-9]+$/", $phonenumber)) {
-    registerError("Phone Number can only contain numbers and an optional + at the beginning.");
+if (!preg_match("/^\+?[0-9]{9,11}$/", $phonenumber)) {
+    registerError("Phone Number must contain 9 to 11 numbers, with an optional + at the beginning.");
 }
 if (strlen($userpassword) < 6) {
     registerError("Password must be at least 6 characters.");

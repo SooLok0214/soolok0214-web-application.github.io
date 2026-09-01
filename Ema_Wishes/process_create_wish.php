@@ -22,6 +22,9 @@ $hideUser = isset($_POST["hideUser"]) ? 1 : 0;
 if ($categoryID == "" || $wishtext == "") {
     wishError("Please select a category and enter your wish.");
 }
+if (mb_strlen($wishtext, "UTF-8") > 150) {
+    wishError("Wish Text must not exceed 150 characters.");
+}
 $categoryID = mysqli_real_escape_string($conn, $categoryID);
 $wishtext = mysqli_real_escape_string($conn, $wishtext);
 $userResult = mysqli_query($conn, "SELECT userID, username, gender FROM users WHERE email = '$email'");

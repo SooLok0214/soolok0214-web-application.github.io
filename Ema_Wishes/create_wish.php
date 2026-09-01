@@ -134,10 +134,11 @@ require "includes/header.php";
                 <textarea
                     name="wishtext"
                     rows="6"
+                    maxlength="150"
                     placeholder="Write your wish here..."
                     required></textarea>
                 <small>
-                    Write a sincere wish in English or Chinese.
+                    Write a sincere wish in English or Chinese. Maximum 150 characters.
                 </small>
             </label>
         </fieldset>
