@@ -52,7 +52,8 @@ require "includes/header.php";
             class="profile-form"
             method="POST"
             action="profile.php"
-            enctype="multipart/form-data">
+            enctype="multipart/form-data"
+            novalidate>
             <input
                 class="profile-file-input"
                 id="profileimage"
@@ -64,16 +65,14 @@ require "includes/header.php";
                 <input
                     type="text"
                     name="username"
-                    value="<?php echo htmlspecialchars($currentUser["username"]); ?>"
-                    required>
+                    value="<?php echo htmlspecialchars($currentUser["username"]); ?>">
             </label>
             <label>
                 <span>Email</span>
                 <input
                     type="email"
                     name="email"
-                    value="<?php echo htmlspecialchars($currentUser["email"]); ?>"
-                    required>
+                    value="<?php echo htmlspecialchars($currentUser["email"]); ?>">
             </label>
             <label>
                 <span>New Password</span>
@@ -104,8 +103,7 @@ require "includes/header.php";
                     maxlength="12"
                     title="Enter 9 to 11 numbers, with an optional + at the beginning."
                     oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '').slice(0, this.value.startsWith('+') ? 12 : 11);"
-                    value="<?php echo htmlspecialchars($currentUser["phonenumber"]); ?>"
-                    required>
+                    value="<?php echo htmlspecialchars($currentUser["phonenumber"]); ?>">
             </label>
             <fieldset class="gender-field">
                 <legend>Gender</legend>
@@ -120,7 +118,7 @@ require "includes/header.php";
                                 echo "checked";
                             }
                             ?>
-                            required>
+                            >
                         <span>Male</span>
                     </label>
                     <label class="gender-option">
@@ -133,7 +131,7 @@ require "includes/header.php";
                                 echo "checked";
                             }
                             ?>
-                            required>
+                            >
                         <span>Female</span>
                     </label>
                 </div>

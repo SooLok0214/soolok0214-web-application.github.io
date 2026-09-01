@@ -45,7 +45,8 @@ $error = $_GET["error"] ?? "";
             <form
                 class="register-form"
                 action="insertuser.php"
-                method="POST">
+                method="POST"
+                novalidate>
                 <label>
                     <span>Username</span>
                     <input
@@ -86,8 +87,7 @@ $error = $_GET["error"] ?? "";
                         title="Enter 9 to 11 numbers, with an optional + at the beginning."
                         oninput="this.value = this.value.replace(/[^0-9+]/g, '').replace(/(?!^)\+/g, '').slice(0, this.value.startsWith('+') ? 12 : 11);"
                         autocomplete="tel"
-                        placeholder="+60176566765"
-                        required>
+                        placeholder="+60176566765">
                 </label>
                 <fieldset class="gender-field">
                     <legend>Gender</legend>

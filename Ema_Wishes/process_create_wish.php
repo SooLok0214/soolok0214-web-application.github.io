@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Kuala_Lumpur');
 session_start();
 if (!isset($_SESSION["email"])) {
     header("Location: index.php");
@@ -6,8 +7,7 @@ if (!isset($_SESSION["email"])) {
 }
 function wishError($message)
 {
-    echo $message;
-    echo '<p><a href="create_wish.php">Back</a></p>';
+    header("Location: create_wish.php?error=" . urlencode($message));
     exit();
 }
 $conn = mysqli_connect("localhost", "Ema_Wishes", "123123", "ema_wishes");
@@ -40,9 +40,12 @@ $category = mysqli_fetch_assoc($categoryResult);
 if (!$category) {
     wishError("Category is invalid.");
 }
-$idResult = mysqli_query($conn, "SELECT MAX(CAST(SUBSTRING(cardID, 2) AS UNSIGNED)) AS largestID FROM wishes");
-$largestID = (int) mysqli_fetch_assoc($idResult)["largestID"];
-$cardID = "W" . max(1001, $largestID + 1);
+$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+$code = '';
+for ($i = 0; $i < 6; $i++) {
+    $code .= $characters[random_int(0, strlen($characters) - 1)];
+}
+$cardID = date('YmdHis') . "_" . $code;
 $name = mysqli_real_escape_string($conn, ucfirst(str_replace("_", "", $user["username"])));
 $gender = mysqli_real_escape_string($conn, $user["gender"]);
 $insertSql = "INSERT INTO wishes (userID, categoryID, cardID, wishtext, name, gender, hideUser, wishdate) VALUES ('$userID', '$categoryID', '$cardID', '$wishtext', '$name', '$gender', '$hideUser', NOW())";
@@ -52,6 +55,5 @@ if (mysqli_query($conn, $insertSql)) {
     header("Location: home.php");
     exit();
 }
-$error = mysqli_error($conn);
 mysqli_close($conn);
-wishError("Error adding wish: " . $error);
+wishError("Unable to add wish. Please try again.");

@@ -38,7 +38,7 @@ $currentPage = basename($_SERVER["PHP_SELF"]);
                 >Profile</a>
                 <a
                     href="logout.php"
-                    onclick="return confirm('Are you sure you want to log out?');"
+                    onclick="return confirm('Are you sure you want to log out? Do you want to continue?');"
                 >Logout</a>
             </nav>
         <?php } ?>

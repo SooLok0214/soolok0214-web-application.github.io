@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Asia/Kuala_Lumpur');
 function registerError($message)
 {
     header("Location: register.php?error=" . urlencode($message));
@@ -48,9 +49,12 @@ if (mysqli_num_rows($checkResult) > 0) {
     mysqli_close($conn);
     registerError("Username or Email already exists.");
 }
-$idResult = mysqli_query($conn, "SELECT MAX(CAST(SUBSTRING(userID, 2) AS UNSIGNED)) AS largestID FROM users");
-$largestID = (int) mysqli_fetch_assoc($idResult)["largestID"];
-$newUserID = "U" . max(1001, $largestID + 1);
+$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789';
+$code = '';
+for ($i = 0; $i < 6; $i++) {
+    $code .= $characters[random_int(0, strlen($characters) - 1)];
+}
+$newUserID = date('YmdHis') . "_" . $code;
 $sql = "INSERT INTO users (username, email, password, phonenumber, gender, userID, created_time) VALUES ('$username', '$email', '$userpassword', '$phonenumber', '$gender', '$newUserID', NOW())";
 if (mysqli_query($conn, $sql)) {
     mysqli_close($conn);

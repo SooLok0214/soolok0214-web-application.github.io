@@ -329,7 +329,7 @@ require "includes/header.php";
         class="delete-account-form"
         action="delete_account.php"
         method="POST"
-        onsubmit="return confirm('Delete your account permanently? This will also delete all of your wishes and cannot be undone.');">
+        onsubmit="return confirm('Are you sure you want to delete your account? This will permanently delete all your wishes. Do you want to continue?');">
         <p>Delete your account and all wishes permanently.</p>
         <button type="submit">Delete Account</button>
     </form>

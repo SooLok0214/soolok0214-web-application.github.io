@@ -32,6 +32,17 @@
     font-size: 12px;
     line-height: 1.7;
 }
+.create-wish-error {
+    margin: 0 0 18px;
+    padding: 11px 13px;
+    border: 1px solid var(--pink-main);
+    border-radius: 12px;
+    color: var(--red-700);
+    background: var(--pink-100);
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+}
 .wish-user-card {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -241,13 +252,13 @@
     height: 1px;
     opacity: 0;
 }
-.privacy-choice span {
-    display: flex;
-    min-height: 47px;
-    padding: 7px 9px;
+.privacy-choice-panel {
+    display: grid;
+    min-height: 72px;
+    padding: 12px 14px;
     align-items: center;
-    flex-direction: column;
-    justify-content: center;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 12px;
     border: 1px solid var(--pink-200);
     border-radius: 12px;
     color: var(--muted);
@@ -255,24 +266,68 @@
     cursor: pointer;
     font-size: 11px;
     line-height: 1.35;
-    text-align: center;
 }
-.privacy-choice span strong {
-    font-size: 11px;
+.privacy-switch {
+    position: relative;
+    display: block;
+    width: 46px;
+    height: 26px;
+    border-radius: 999px;
+    background: var(--muted);
+    transition: background 0.2s ease;
 }
-.privacy-choice span small {
-    margin-top: 3px;
-    color: inherit;
+.privacy-switch > span {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--paper);
+    transition: transform 0.2s ease;
+}
+.privacy-copy {
+    display: grid;
+    gap: 2px;
+}
+.privacy-copy strong {
+    color: var(--red-700);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+}
+.privacy-copy b {
+    color: var(--ink);
+    font-size: 12px;
+}
+.privacy-copy small {
+    color: var(--muted);
     font-size: 8px;
     font-weight: normal;
 }
-.privacy-choice input:checked + span {
-    border-color: var(--pink-main);
-    color: var(--pink-50);
-    background: var(--pink-main);
-    font-weight: bold;
+.privacy-copy-off {
+    display: grid;
 }
-.privacy-choice input:focus-visible + span {
+.privacy-copy-on {
+    display: none;
+}
+.privacy-choice input:checked + .privacy-choice-panel {
+    border-color: var(--pink-main);
+    background: var(--pink-100);
+    box-shadow: inset 0 0 0 1px var(--pink-main);
+}
+.privacy-choice input:checked + .privacy-choice-panel .privacy-switch {
+    background: var(--pink-main);
+}
+.privacy-choice input:checked + .privacy-choice-panel .privacy-switch > span {
+    transform: translateX(20px);
+}
+.privacy-choice input:checked + .privacy-choice-panel .privacy-copy-on {
+    display: grid;
+}
+.privacy-choice input:checked + .privacy-choice-panel .privacy-copy-off {
+    display: none;
+}
+.privacy-choice input:focus-visible + .privacy-choice-panel {
     box-shadow: 0 0 0 3px var(--pink-200);
 }
 .create-wish-button {

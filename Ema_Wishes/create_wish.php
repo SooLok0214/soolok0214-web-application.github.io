@@ -18,8 +18,9 @@ if (!$currentUser) {
     exit();
 }
 $categoryResult = mysqli_query($conn, "SELECT categoryID, categoryname, categoryicon, description FROM wishcategories ORDER BY categoryID");
+$error = $_GET["error"] ?? "";
 $pageTitle = "Add Wish";
-$pageCss = "css/create_wish.css?v=20260730-5";
+$pageCss = "css/create_wish.css?v=20260901-2";
 require "includes/header.php";
 ?>
 <section class="create-page">
@@ -28,9 +29,15 @@ require "includes/header.php";
         <h2>Make a New Wish</h2>
         <span>Choose a theme and leave a sincere wish on the wall.</span>
     </div>
+    <?php if ($error != "") { ?>
+        <p class="create-wish-error">
+            <?php echo htmlspecialchars($error); ?>
+        </p>
+    <?php } ?>
     <form class="create-wish-form"
         action="process_create_wish.php"
-        method="POST">
+        method="POST"
+        novalidate>
         <fieldset class="identity-field">
             <legend class="form-step-heading">
                 <span class="form-step-number">01</span>
@@ -69,12 +76,20 @@ require "includes/header.php";
                             name="hideUser"
                             value="1"
                             checked>
-                        <span>
-                            <strong>Post anonymously</strong>
-                            <small>
-                                Your name and gender will not appear on the
-                                wish wall.
-                            </small>
+                        <span class="privacy-choice-panel">
+                            <span class="privacy-switch" aria-hidden="true">
+                                <span></span>
+                            </span>
+                            <span class="privacy-copy privacy-copy-on">
+                                <strong>Privacy ON</strong>
+                                <b>Post anonymously</b>
+                                <small>Your name and gender are hidden.</small>
+                            </span>
+                            <span class="privacy-copy privacy-copy-off">
+                                <strong>Privacy OFF</strong>
+                                <b>Show my information</b>
+                                <small>Your name and gender will appear.</small>
+                            </span>
                         </span>
                     </label>
                 </div>
@@ -96,8 +111,7 @@ require "includes/header.php";
                         <input
                             type="radio"
                             name="categoryID"
-                            value="<?php echo $category["categoryID"]; ?>"
-                            required>
+                            value="<?php echo $category["categoryID"]; ?>">
                         <span class="wish-theme-card-content">
                             <strong class="wish-theme-icon">
                                 <?php echo htmlspecialchars(
@@ -135,8 +149,7 @@ require "includes/header.php";
                     name="wishtext"
                     rows="6"
                     maxlength="150"
-                    placeholder="Write your wish here..."
-                    required></textarea>
+                    placeholder="Write your wish here..."></textarea>
                 <small>
                     Write a sincere wish in English or Chinese. Maximum 150 characters.
                 </small>

@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </h1>
         </section>
         <div id="email">
-            <form method="POST">
+            <form method="POST" novalidate>
                 <h2>Enter Your Email:</h2>
                 <input
                     type="text"
