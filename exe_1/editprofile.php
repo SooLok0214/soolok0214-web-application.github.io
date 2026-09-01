@@ -1,4 +1,38 @@
 ﻿<!DOCTYPE html>
+<?php
+$servername = "localhost";
+$username = "Myshop";
+$password = "";
+$dbname = "Myshop";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$targetEmail = $_POST["Email"] ?? $_GET["Email"] ?? "";
+if ($targetEmail == "") {
+    die("Customer not found");
+}
+
+$escapedEmail = mysqli_real_escape_string($conn, $targetEmail);
+$result = mysqli_query($conn, "SELECT * FROM customers WHERE Email='$escapedEmail'");
+$customer = mysqli_fetch_assoc($result);
+
+if (!$customer) {
+    die("Customer not found");
+}
+
+$messages = $_GET["error"] ?? [];
+if (!is_array($messages)) {
+    $messages = [$messages];
+}
+
+$NameValue = isset($_GET["Name"]) ? $_GET["Name"] : $customer["Name"];
+$JoinYearValue = isset($_GET["JoinYear"]) ? $_GET["JoinYear"] : $customer["JoinYear"];
+$PhoneValue = isset($_GET["Phone"]) ? $_GET["Phone"] : $customer["Phone"];
+?>
+
 <html lang="en">
 
 <head>
@@ -135,6 +169,22 @@
         button a {
             color: #ffffff;
         }
+
+        .warning-list {
+            width: 94%;
+            max-width: 980px;
+            margin: 16px auto 0;
+        }
+
+        .warning {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 5px;
+            background: #ef4b52;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
     </style>
     <style>
         .sidebar details { margin: 4px 0; }
@@ -180,7 +230,15 @@
         <button type="submit">Back</button>
     </form>
 
-    <form action="process_edit_profile.php" method="POST">
+    <?php if (count($messages) > 0) { ?>
+        <div class="warning-list">
+            <?php foreach ($messages as $message) { ?>
+                <div class="warning">* <?php echo htmlspecialchars($message); ?></div>
+            <?php } ?>
+        </div>
+    <?php } ?>
+
+    <form action="process_edit_profile.php" method="POST" novalidate>
         <table>
             <tr>
                 <th>Name</th>
@@ -190,19 +248,17 @@
                 <th>Phone</th>
             </tr>
             <tr>
-                <td><input type="text" name="Name"></td>
+                <td>
+                    <input type="hidden" name="Email" value="<?php echo htmlspecialchars($targetEmail); ?>">
+                    <input type="text" name="Name" value="<?php echo htmlspecialchars($NameValue); ?>">
+                </td>
                 <td><input type="password" name="Password" minlength="6"></td>
                 <td><input type="password" name="ConfirmPassword" minlength="6"></td>
-                <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="JoinYear" required maxlength="4"></td>
-                <td><input type="text" name="Phone" required></td>
+                <td><input type="number" min="1900" max="<?php echo date("Y"); ?>" step="1" name="JoinYear" value="<?php echo htmlspecialchars($JoinYearValue); ?>"></td>
+                <td><input type="text" name="Phone" value="<?php echo htmlspecialchars($PhoneValue); ?>"></td>
                 <td><input type="submit" value="Submit"></td>
             </tr>
         </table>
-        <?php
-        if (isset($_GET['error'])) {
-            echo '<div style="color:red; margin: 5px 0;">' . $_GET['error'] . '</div>';
-        }
-        ?>
     </form>
 </body>
 

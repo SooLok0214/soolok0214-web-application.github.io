@@ -118,6 +118,46 @@ $products = mysqli_query($conn, "SELECT ProductID, ProductName, Price FROM produ
             background: #ffffff;
         }
 
+        .product-head,
+        .product-row {
+            display: grid;
+            grid-template-columns: minmax(0, 2fr) minmax(110px, 0.7fr) auto;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .product-head {
+            margin: 16px 0 6px;
+            font-weight: bold;
+        }
+
+        .product-row {
+            margin-bottom: 10px;
+        }
+
+        .product-row button {
+            margin: 0;
+            background: #111111;
+        }
+
+        .product-row button:hover {
+            background: #d9367d;
+        }
+
+        .product-row button:disabled {
+            opacity: 0.35;
+            cursor: default;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-product-button {
+            background: #111111;
+        }
+
         button {
             margin-top: 20px;
             padding: 10px 18px;
@@ -198,26 +238,60 @@ $products = mysqli_query($conn, "SELECT ProductID, ProductName, Price FROM produ
                 <?php } ?>
             </select>
 
-            <label for="ProductID">Product</label>
-            <select id="ProductID" name="ProductID" required>
-                <option value="">Select Product</option>
-                <?php while ($product = mysqli_fetch_assoc($products)) { ?>
-                    <option value="<?php echo $product['ProductID']; ?>">
-                        <?php echo htmlspecialchars($product['ProductID'] . " - " . $product['ProductName'] . " (RM " . $product['Price'] . ")"); ?>
-                    </option>
-                <?php } ?>
-            </select>
+            <div class="product-head">
+                <div>Product</div>
+                <div>Quantity</div>
+                <div></div>
+            </div>
 
-            <label for="Quantity">Quantity</label>
-            <input id="Quantity" type="number" name="Quantity" min="1" required>
+            <div id="productRows">
+                <div class="product-row">
+                    <select name="ProductID[]" required>
+                        <option value="">Select Product</option>
+                        <?php while ($product = mysqli_fetch_assoc($products)) { ?>
+                            <option value="<?php echo $product['ProductID']; ?>">
+                                <?php echo htmlspecialchars($product['ProductID'] . " - " . $product['ProductName'] . " (RM " . $product['Price'] . ")"); ?>
+                            </option>
+                        <?php } ?>
+                    </select>
+                    <input type="number" name="Quantity[]" min="1" placeholder="Quantity" required>
+                    <button type="button" class="remove-product" onclick="removeProductRow(this)" disabled>Remove</button>
+                </div>
+            </div>
 
             <?php if (isset($_GET["error"])) { ?>
                 <div class="warning"><?php echo htmlspecialchars($_GET["error"]); ?></div>
             <?php } ?>
 
-            <button type="submit">Submit Order</button>
+            <div class="actions">
+                <button type="button" class="add-product-button" onclick="addProductRow()">Add Product</button>
+                <button type="submit">Submit Order</button>
+            </div>
         </form>
     </div>
+
+    <script>
+        function addProductRow() {
+            const productRows = document.getElementById("productRows");
+            const newRow = productRows.firstElementChild.cloneNode(true);
+            newRow.querySelector("select").value = "";
+            newRow.querySelector("input").value = "";
+            productRows.appendChild(newRow);
+            updateRemoveButtons();
+        }
+
+        function removeProductRow(button) {
+            button.parentElement.remove();
+            updateRemoveButtons();
+        }
+
+        function updateRemoveButtons() {
+            const buttons = document.querySelectorAll(".remove-product");
+            buttons.forEach(function (button) {
+                button.disabled = buttons.length == 1;
+            });
+        }
+    </script>
 </body>
 
 </html>

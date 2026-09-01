@@ -10,7 +10,12 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$ProductID = $_POST['ProductID'];
+$ProductID = $_POST['ProductID'] ?? $_GET['ProductID'] ?? "";
+if ($ProductID == "") {
+    header("Location: products.php");
+    exit();
+}
+
 $query = "SELECT * FROM products WHERE ProductID='$ProductID'";
 $result = mysqli_query($conn, $query) or die("Couldn't execute query");
 $product = mysqli_fetch_assoc($result);
@@ -18,6 +23,14 @@ $product = mysqli_fetch_assoc($result);
 if (!$product) {
     die("Product not found");
 }
+
+$messages = $_GET["error"] ?? [];
+if (!is_array($messages)) {
+    $messages = [$messages];
+}
+
+$ProductNameValue = isset($_GET["ProductName"]) ? $_GET["ProductName"] : $product["ProductName"];
+$PriceValue = isset($_GET["Price"]) ? $_GET["Price"] : $product["Price"];
 ?>
 
 <!DOCTYPE html>
@@ -163,6 +176,22 @@ if (!$product) {
         button a {
             color: #ffffff;
         }
+
+        .warning-list {
+            width: 94%;
+            max-width: 980px;
+            margin: 16px auto 0;
+        }
+
+        .warning {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 5px;
+            background: #ef4b52;
+            color: #ffffff;
+            text-align: left;
+            font-weight: bold;
+        }
     </style>
     <style>
         .sidebar details { margin: 4px 0; }
@@ -207,7 +236,14 @@ if (!$product) {
     <form action="products.php" method="GET">
         <button type="submit">Back</button>
     </form>
-    <form action="process_edit_product.php" method="POST">
+    <?php if (count($messages) > 0) { ?>
+        <div class="warning-list">
+            <?php foreach ($messages as $message) { ?>
+                <div class="warning">* <?php echo htmlspecialchars($message); ?></div>
+            <?php } ?>
+        </div>
+    <?php } ?>
+    <form action="process_edit_product.php" method="POST" novalidate>
         <table width="600">
             <tr>
                 <th>ProductID</th>
@@ -215,9 +251,9 @@ if (!$product) {
                 <th>Price(RM)</th>
             </tr>
             <tr>
-                <td><input type="text" name="ProductID" value="<?php echo ($product['ProductID']); ?>" readonly></td>
-                <td><input type="text" name="ProductName" value="<?php echo ($product['ProductName']); ?>"></td>
-                <td><input type="text" name="Price" value="<?php echo ($product['Price']); ?>"></td>
+                <td><input type="text" name="ProductID" value="<?php echo htmlspecialchars($product['ProductID']); ?>" readonly></td>
+                <td><input type="text" name="ProductName" value="<?php echo htmlspecialchars($ProductNameValue); ?>"></td>
+                <td><input type="text" name="Price" value="<?php echo htmlspecialchars($PriceValue); ?>"></td>
                 <td><input type="submit" value="Submit"></td>
             </tr>
         </table>

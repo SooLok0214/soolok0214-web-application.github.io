@@ -9,6 +9,9 @@
     if (!$conn) {
         die('Connection failed: ' . mysqli_connect_error());
     }
+
+    require_once "generatecode.php";
+    $uniqueCode = generateUniqueCode();
     ?>
 
 <!DOCTYPE html>
@@ -215,7 +218,7 @@
         <tr>
             <form action="insertcustomer.php" method="POST">
                 <td><input type="text" name="Name"></td>
-                <td><input type="text" name="CusID"></td>
+                <td><input type="text" name="CusID" value="<?php echo htmlspecialchars($uniqueCode); ?>" readonly></td>
                 <td><input type="text" name="Email"></td>
                 <td><input type="text" name="Password"></td>
                 <td><input type="text" name="JoinYear"></td>

@@ -3,15 +3,19 @@
   $username = "Myshop";
   $password = "";
   $dbname = "Myshop";
-  $message = "";
+  $messages = [];
 
 if (isset($_POST["Email"]) && isset($_POST["Password"])) {
 
   if (empty($_POST["Email"])){
-    $message = "Please fill in Email.";
-  } else if (empty($_POST["Password"])){
-    $message = "Please fill in Password.";
-  } else {
+    $messages[] = "Please enter your email.";
+  }
+
+  if (empty($_POST["Password"])){
+    $messages[] = "Please enter your password.";
+  }
+
+  if (count($messages) == 0) {
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -32,7 +36,7 @@ session_start();
       header("Location: homepage.php");
       exit();
     } else {
-      $message = "No Found User";
+      $messages[] = "Email or password is incorrect.";
     }
   }
 }
@@ -101,10 +105,13 @@ session_start();
         background: #111111;
     }
 
-    .error {
-        margin: 14px 0 0;
-        color: #d9367d;
-        text-align: center;
+    .warning {
+        margin: 10px 0;
+        padding: 12px;
+        border-radius: 5px;
+        background: #ef4b52;
+        color: #ffffff;
+        text-align: left;
         font-weight: bold;
     }
 </style>
@@ -112,14 +119,14 @@ session_start();
   <body>
     <div id="email">
       <form target="_self" method="POST">
+        <?php foreach ($messages as $message) { ?>
+          <div class="warning">* <?php echo htmlspecialchars($message); ?></div>
+        <?php } ?>
         <h2>Enter Your Email:</h2>
-        <input type="text" name="Email">
+        <input type="text" name="Email" value="<?php echo isset($_POST['Email']) ? htmlspecialchars($_POST['Email']) : ''; ?>">
         <br/>
         <h2>Password:</h2>
         <input type="password" name="Password">
-        <?php if ($message != "") { ?>
-          <div class="error"><?php echo htmlspecialchars($message); ?></div>
-        <?php } ?>
         <input type="submit" value="Login">
       </form>
     </div>

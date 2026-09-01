@@ -9,6 +9,9 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die('Connection failed: ' . mysqli_connect_error());
 }
+
+require_once "generatecode.php";
+$uniqueCode = generateUniqueCode();
 ?>
 
 <!DOCTYPE html>
@@ -213,7 +216,7 @@ if (!$conn) {
         </tr>
         <tr>
             <form action="insertproduct.php" method="POST">
-                <td><input type="text" name="ProductID"></td>
+                <td><input type="text" name="ProductID" value="<?php echo htmlspecialchars($uniqueCode); ?>" readonly></td>
                 <td><input type="text" name="ProductName"></td>
                 <td><input type="text" name="Price"></td>
                 <td><input type="submit" value="add"></td>
